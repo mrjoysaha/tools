@@ -3,30 +3,32 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dark Mode Website</title>
+<title>Responsive Popup Button Website</title>
 
 <style>
-:root{
-    --bg:#121212;
-    --card:#1e1e1e;
-    --text:#ffffff;
-    --accent:#4CAF50;
-    --sidebar:#181818;
-}
-
-body.light{
-    --bg:#f5f5f5;
-    --card:#ffffff;
-    --text:#222222;
-    --accent:#007bff;
-    --sidebar:#e5e5e5;
-}
-
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
     font-family:Arial, sans-serif;
+}
+
+:root{
+    --bg:#121212;
+    --text:#ffffff;
+    --header:#1e1e1e;
+    --menu:#181818;
+    --button:#2d2d2d;
+    --button-hover:#444;
+}
+
+body.light{
+    --bg:#f5f5f5;
+    --text:#111;
+    --header:#ffffff;
+    --menu:#eeeeee;
+    --button:#d9d9d9;
+    --button-hover:#c5c5c5;
 }
 
 body{
@@ -35,19 +37,19 @@ body{
     transition:0.3s;
 }
 
-/* Header */
-.header{
+/* HEADER */
+header{
+    background:var(--header);
     height:70px;
     display:flex;
     align-items:center;
     justify-content:center;
-    background:var(--card);
     position:fixed;
     top:0;
     left:0;
-    right:0;
+    width:100%;
     z-index:1000;
-    box-shadow:0 2px 8px rgba(0,0,0,0.2);
+    box-shadow:0 2px 10px rgba(0,0,0,0.2);
 }
 
 .logo{
@@ -55,203 +57,231 @@ body{
     font-weight:bold;
 }
 
-/* Theme Switch */
-.theme-switch{
+.theme-toggle{
     position:absolute;
     right:20px;
 }
 
-.theme-switch button{
-    padding:8px 14px;
+.theme-toggle button{
+    padding:8px 12px;
     border:none;
     border-radius:20px;
     cursor:pointer;
-    background:var(--accent);
-    color:white;
 }
 
-/* Sidebar */
+/* SIDEBAR */
 .sidebar{
     position:fixed;
     top:70px;
     left:0;
     width:220px;
-    height:100%;
-    background:var(--sidebar);
-    padding-top:20px;
+    height:calc(100vh - 70px);
+    background:var(--menu);
+    padding:20px;
 }
 
-.sidebar a{
-    display:block;
-    color:var(--text);
-    text-decoration:none;
-    padding:15px 20px;
-    transition:0.3s;
+.sidebar h3{
+    margin-bottom:20px;
 }
 
-.sidebar a:hover{
-    background:var(--accent);
-    color:white;
-}
-
-/* Main Content */
+/* MAIN */
 .main{
     margin-left:220px;
     margin-top:90px;
     padding:20px;
 }
 
-/* Buttons Grid */
 .button-grid{
     display:grid;
-    grid-template-columns:repeat(2,1fr);
+    grid-template-columns:repeat(2, 1fr);
     gap:20px;
+    max-width:600px;
 }
 
-.button-card{
-    background:var(--card);
-    padding:30px;
-    border-radius:15px;
-    text-align:center;
-    position:relative;
-    min-height:150px;
-    box-shadow:0 4px 12px rgba(0,0,0,0.2);
-}
-
-.button-card h3{
-    margin-bottom:15px;
-}
-
-/* Floating Link Button */
-.float-btn{
-    position:absolute;
-    bottom:15px;
-    right:15px;
-    background:var(--accent);
-    color:white;
+.popup-btn{
+    background:var(--button);
+    color:var(--text);
     text-decoration:none;
-    padding:10px 16px;
-    border-radius:30px;
-    font-size:14px;
+    padding:25px;
+    border-radius:12px;
+    text-align:center;
+    font-size:18px;
+    transition:0.3s;
+    cursor:pointer;
+    display:block;
 }
 
-.float-btn:hover{
-    opacity:0.9;
+.popup-btn:hover{
+    background:var(--button-hover);
+    transform:translateY(-3px);
 }
 
-/* Mobile */
+/* POPUP */
+.popup{
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.7);
+    justify-content:center;
+    align-items:center;
+    z-index:2000;
+}
+
+.popup-content{
+    background:var(--header);
+    color:var(--text);
+    padding:30px;
+    border-radius:12px;
+    width:90%;
+    max-width:400px;
+    text-align:center;
+}
+
+.popup-content a{
+    display:inline-block;
+    margin-top:15px;
+    text-decoration:none;
+    padding:10px 20px;
+    background:#4CAF50;
+    color:white;
+    border-radius:6px;
+}
+
+.close{
+    margin-top:15px;
+    background:#e74c3c;
+    color:white;
+    border:none;
+    padding:10px 20px;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+/* MOBILE */
 @media(max-width:768px){
 
     .sidebar{
-        width:70px;
-    }
-
-    .sidebar a{
-        text-align:center;
-        padding:15px 5px;
-        font-size:12px;
+        width:100%;
+        height:auto;
+        position:relative;
+        top:70px;
     }
 
     .main{
-        margin-left:70px;
+        margin-left:0;
+        margin-top:100px;
     }
 
     .button-grid{
         grid-template-columns:1fr;
-    }
-
-    .logo{
-        font-size:20px;
-    }
-
-    .theme-switch{
-        right:10px;
     }
 }
 </style>
 </head>
 <body>
 
-<!-- Header -->
-<div class="header">
+<header>
     <div class="logo">LOGO</div>
 
-    <div class="theme-switch">
-        <button onclick="toggleTheme()">🌙 / ☀️</button>
+    <div class="theme-toggle">
+        <button onclick="toggleTheme()">☀️ / 🌙</button>
     </div>
-</div>
+</header>
 
-<!-- Sidebar -->
 <div class="sidebar">
-    <a href="#">Menu 1</a>
-    <a href="#">Menu 2</a>
-    <a href="#">Menu 3</a>
-    <a href="#">Menu 4</a>
+    <h3>Menu</h3>
+    <p>Navigation Area</p>
 </div>
 
-<!-- Main Content -->
 <div class="main">
-
     <div class="button-grid">
 
-        <!-- 1st Button -->
-        <div class="button-card">
-            <h3>1st Button</h3>
-            <p>Content for first button.</p>
-            <a href="https://example.com" class="float-btn">
-                Visit
-            </a>
-        </div>
+        <a class="popup-btn" onclick="openPopup('popup1')">
+            1st Button
+        </a>
 
-        <!-- 2nd Button -->
-        <div class="button-card">
-            <h3>2nd Button</h3>
-            <p>Content for second button.</p>
-            <a href="https://example.com" class="float-btn">
-                Visit
-            </a>
-        </div>
+        <a class="popup-btn" onclick="openPopup('popup2')">
+            2nd Button
+        </a>
 
-        <!-- 3rd Button -->
-        <div class="button-card">
-            <h3>3rd Button</h3>
-            <p>Content for third button.</p>
-            <a href="https://example.com" class="float-btn">
-                Visit
-            </a>
-        </div>
+        <a class="popup-btn" onclick="openPopup('popup3')">
+            3rd Button
+        </a>
 
-        <!-- 4th Button -->
-        <div class="button-card">
-            <h3>4th Button</h3>
-            <p>Content for fourth button.</p>
-            <a href="https://example.com" class="float-btn">
-                Visit
-            </a>
-        </div>
+        <a class="popup-btn" onclick="openPopup('popup4')">
+            4th Button
+        </a>
 
     </div>
+</div>
 
+<!-- POPUP 1 -->
+<div class="popup" id="popup1">
+    <div class="popup-content">
+        <h2>1st Button</h2>
+        <p>Popup content for Button 1</p>
+        <a href="https://example.com" target="_blank">Open Link</a>
+        <br>
+        <button class="close" onclick="closePopup('popup1')">Close</button>
+    </div>
+</div>
+
+<!-- POPUP 2 -->
+<div class="popup" id="popup2">
+    <div class="popup-content">
+        <h2>2nd Button</h2>
+        <p>Popup content for Button 2</p>
+        <a href="https://example.com" target="_blank">Open Link</a>
+        <br>
+        <button class="close" onclick="closePopup('popup2')">Close</button>
+    </div>
+</div>
+
+<!-- POPUP 3 -->
+<div class="popup" id="popup3">
+    <div class="popup-content">
+        <h2>3rd Button</h2>
+        <p>Popup content for Button 3</p>
+        <a href="https://example.com" target="_blank">Open Link</a>
+        <br>
+        <button class="close" onclick="closePopup('popup3')">Close</button>
+    </div>
+</div>
+
+<!-- POPUP 4 -->
+<div class="popup" id="popup4">
+    <div class="popup-content">
+        <h2>4th Button</h2>
+        <p>Popup content for Button 4</p>
+        <a href="https://example.com" target="_blank">Open Link</a>
+        <br>
+        <button class="close" onclick="closePopup('popup4')">Close</button>
+    </div>
 </div>
 
 <script>
 function toggleTheme(){
     document.body.classList.toggle("light");
-
-    if(document.body.classList.contains("light")){
-        localStorage.setItem("theme","light");
-    }else{
-        localStorage.setItem("theme","dark");
-    }
 }
 
-window.onload = function(){
-    const savedTheme = localStorage.getItem("theme");
+function openPopup(id){
+    document.getElementById(id).style.display="flex";
+}
 
-    if(savedTheme === "light"){
-        document.body.classList.add("light");
-    }
-};
+function closePopup(id){
+    document.getElementById(id).style.display="none";
+}
+
+window.onclick = function(event){
+    document.querySelectorAll('.popup').forEach(popup=>{
+        if(event.target === popup){
+            popup.style.display='none';
+        }
+    });
+}
 </script>
 
 </body>
