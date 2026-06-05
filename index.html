@@ -451,15 +451,7 @@ header{
     transform:translateY(-3px);
 }
 
-/* Mobile */
 
-@media(max-width:480px){
-
-    .popup-buttons{
-        grid-template-columns:1fr;
-    }
-
-}
    
 .close-btn{
     border:none;
@@ -690,11 +682,13 @@ footer{
 <div class="popup-box">
 <h2>Image Tolls</h2>
 <p></p>
+     <div class="popup-buttons">
 <a href="https://example.com" target="_blank">Open Link</a>
    <a href="https://example.com" target="_blank">Open Link</a>
    <a href="https://example.com" target="_blank">Open Link</a>
    <a href="https://example.com" target="_blank">Open Link</a>
    <a href="https://example.com" target="_blank">Open Link</a>
+     </div>
 <button class="close-btn" onclick="closePopup('p2')">Close</button>
 </div>
 </div>
@@ -703,9 +697,10 @@ footer{
 <div class="popup-box">
 <h2>Text & Productivity</h2>
 <p></p>
+     <div class="popup-buttons">
 <a href="https://example.com" target="_blank">Text</a>
-   <br />
    <a href="https://example.com" target="_blank">Productivity</a>
+     </div>
 <button class="close-btn" onclick="closePopup('p3')">Close</button>
 </div>
 </div>
@@ -714,8 +709,10 @@ footer{
 <div class="popup-box">
 <h2>Mockup</h2>
 <p></p>
+     <div class="popup-buttons">
 <a href="https://example.com" target="_blank">Ios Mockup</a>
    <a href="https://example.com" target="_blank">Andriod Mockup</a>
+     </div>
 <button class="close-btn" onclick="closePopup('p4')">Close</button>
 </div>
 </div>
