@@ -47,6 +47,8 @@ body{
     radial-gradient(circle at bottom right,#9333ea25,transparent 25%),
     var(--bg);
     transition:.3s;
+    overflow-x:hidden;
+
 }
 
 /* ==========================
@@ -173,9 +175,10 @@ header{
 .sidebar{
     position:fixed;
     top:0;
-    left:-300px;
+    left:0;
 
     width:280px;
+    max-width:80vw;
     height:100vh;
 
     backdrop-filter:blur(25px);
@@ -183,15 +186,17 @@ header{
 
     border-right:1px solid var(--border);
 
-    transition:.35s ease;
+    transform:translateX(-100%);
+    transition:transform .35s ease;
 
     z-index:1200;
-
     padding-top:90px;
+
+    overflow-y:auto;
 }
 
 .sidebar.active{
-    left:0;
+    transform:translateX(0);
 }
 
 .sidebar h3{
@@ -284,12 +289,12 @@ header{
 
 .grid{
     display:grid;
-    grid-template-columns:repeat(2,1fr);
+    grid-template-columns:repeat(2, minmax(120px,1fr));
     gap:12px;
     max-width:450px;
     margin:auto;
 }
-
+   
 .card-btn{
     min-height:75px;
     padding:12px;
@@ -662,7 +667,17 @@ overlay.onclick=()=>{
     sidebar.classList.remove("active");
     overlay.classList.remove("active");
 };
-
+   
+/* CLOSE MENU WHEN A MENU LINK IS CLICKED */
+   
+document.querySelectorAll('.sidebar a').forEach(link => {
+    link.addEventListener('click', () => {
+        menuBtn.classList.remove('active');
+        sidebar.classList.remove('active');
+        overlay.classList.remove('active');
+    });
+});
+   
 /* THEME */
 
 const themeBtn=document.getElementById("themeBtn");
