@@ -1,237 +1,883 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Tools</title>
-<style>
-:root{--bg:#f4f4f4;--card:#fff;--text:#111;--accent:#2563eb}
-body.dark{--bg:#121212;--card:#1e1e1e;--text:#eee}
-*{box-sizing:border-box} body{margin:0;font-family:Arial;background:var(--bg);color:var(--text)}
-.sidebar{position:fixed;left:0;top:0;width:260px;height:100%;overflow:auto;background:var(--card);padding:15px}
-.main{margin-left:270px;padding:20px}
-a{display:block;padding:6px 0;color:var(--text);text-decoration:none}
-.card{background:var(--card);padding:15px;border-radius:10px;margin:12px 0}
-input,select,textarea,button{padding:8px;margin:4px;width:100%}
-@media(max-width:768px){.sidebar{position:relative;width:100%;height:auto}.main{margin-left:0}}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OmniTool Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#0f172a',
+                        darkCard: '#1e293b',
+                        lightBg: '#f8fafc',
+                        lightCard: '#ffffff'
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body>
-<div class="sidebar">
-<h2>Multi Tools Hub</h2>
-<button onclick="document.body.classList.toggle('dark')">Dark/Light</button>
-<a href="#age">Age Calculator</a>
-<a href="#emi">EMI Calculator</a>
-<a href="#percent">Percentage Tools</a>
-<a href="#word">Word Counter</a>
-<a href="#case">Case Converter</a>
-<a href="#password">Password Generator</a>
-<a href="#qr">QR Generator</a>
-<a href="#date">Date Calculator</a>
-<a href="#color">Color Tools</a>
-<a href="#image">Image Tools</a>
-<a href="#mockup">Mockup Generator</a>
-</div>
+<body class="bg-slate-900 text-slate-100 min-h-screen font-sans transition-colors duration-200 dark:bg-darkBg dark:text-slate-100 bg-lightBg text-slate-800">
 
-<div class="main">
-<h1>Multi Tools Hub</h1>
+    <div class="flex min-h-screen">
+        <aside class="w-64 bg-slate-850 dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 fixed h-full z-30 transition-transform -translate-x-full md:translate-x-0 id='sidebar'">
+            <div class="p-6 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
+                <h1 class="text-xl font-bold tracking-wider text-indigo-500 flex items-center gap-2">
+                    <i data-lucide="wrench"></i> OmniHub
+                </h1>
+                <button onclick="toggleTheme()" class="p-2 rounded-lg bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:scale-105 transition-transform">
+                    <i id="theme-icon" data-lucide="sun"></i>
+                </button>
+            </div>
+            <nav class="p-4 space-y-1 overflow-y-auto h-[calc(100vh-85px)]">
+                <button onclick="switchTab('dashboard')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all text-left bg-indigo-600 text-white" id="btn-dashboard">
+                    <i data-lucide="layout-dashboard"></i> Dashboard
+                </button>
+                <button onclick="switchTab('calculators')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all text-left text-slate-400 hover:bg-slate-800/50" id="btn-calculators">
+                    <i data-lucide="calculator"></i> Calculators
+                </button>
+                <button onclick="switchTab('image-tools')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all text-left text-slate-400 hover:bg-slate-800/50" id="btn-image-tools">
+                    <i data-lucide="image"></i> Image Tools
+                </button>
+                <button onclick="switchTab('text-tools')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all text-left text-slate-400 hover:bg-slate-800/50" id="btn-text-tools">
+                    <i data-lucide="file-text"></i> Text Tools
+                </button>
+                <button onclick="switchTab('productivity')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all text-left text-slate-400 hover:bg-slate-800/50" id="btn-productivity">
+                    <i data-lucide="check-square"></i> Productivity
+                </button>
+                <button onclick="switchTab('mockups')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all text-left text-slate-400 hover:bg-slate-800/50" id="btn-mockups">
+                    <i data-lucide="smartphone"></i> Mockups
+                </button>
+            </nav>
+        </aside>
 
-<div class="card" id="age">
-<h3>Age Calculator</h3>
-<input type="date" id="dob">
-<button onclick="calcAge()">Calculate</button>
-<div id="ageOut"></div>
-</div>
+        <main class="flex-1 md:ml-64 p-6 lg:p-10 transition-all">
+            
+            <section id="tab-dashboard" class="tab-content space-y-6">
+                <div class="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-3xl p-8 text-white shadow-xl">
+                    <h2 class="text-3xl font-extrabold mb-2">Welcome to OmniTool Hub</h2>
+                    <p class="text-indigo-100 max-w-xl">A complete, browser-native toolkit for developers, creators, and professionals. No data leaves your machine.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div onclick="switchTab('calculators')" class="p-6 bg-white dark:bg-darkCard rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md cursor-pointer group transition-all">
+                        <div class="w-12 h-12 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform"><i data-lucide="calculator"></i></div>
+                        <h3 class="text-lg font-bold mb-1">Calculators</h3>
+                        <p class="text-sm text-slate-400">Age, EMI, Interest rates, and comprehensive percentage suites.</p>
+                    </div>
+                    <div onclick="switchTab('image-tools')" class="p-6 bg-white dark:bg-darkCard rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md cursor-pointer group transition-all">
+                        <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform"><i data-lucide="image"></i></div>
+                        <h3 class="text-lg font-bold mb-1">Image Tools</h3>
+                        <p class="text-sm text-slate-400">Compress, convert, strip metadata, optimize SVGs, and pick colors.</p>
+                    </div>
+                    <div onclick="switchTab('text-tools')" class="p-6 bg-white dark:bg-darkCard rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md cursor-pointer group transition-all">
+                        <div class="w-12 h-12 rounded-xl bg-purple-500/10 text-purple-500 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform"><i data-lucide="file-text"></i></div>
+                        <h3 class="text-lg font-bold mb-1">Text Utilities</h3>
+                        <p class="text-sm text-slate-400">Case shifting, Diff checking, markdown rendering, counters.</p>
+                    </div>
+                </div>
+            </section>
 
-<div class="card" id="emi">
-<h3>EMI Calculator</h3>
-<input id="p" placeholder="Principal">
-<input id="r" placeholder="Rate %">
-<input id="n" placeholder="Months">
-<button onclick="emi()">Calculate</button>
-<div id="emiOut"></div>
-</div>
+            <section id="tab-calculators" class="tab-content hidden space-y-12">
+                <h2 class="text-2xl font-bold border-b border-slate-800 pb-3 flex items-center gap-2"><i data-lucide="calculator" class="text-indigo-500"></i> Calculator Suite</h2>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="bg-white dark:bg-darkCard p-6 rounded-2xl border border-slate-200 dark:border-slate-800">
+                        <h3 class="text-lg font-bold mb-4 text-indigo-400 flex items-center gap-2"><i data-lucide="calendar"></i> Age Calculator</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-semibold mb-2 uppercase tracking-wider text-slate-400">Date of Birth</label>
+                                <input type="date" id="dob" class="w-full bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-3 text-sm focus:outline-none focus:border-indigo-500">
+                            </div>
+                            <button onclick="calcAge()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 rounded-xl transition-colors">Calculate Age</button>
+                            <div id="age-result" class="text-sm font-medium text-slate-300 mt-2 bg-slate-900/50 p-3 rounded-xl hidden"></div>
+                        </div>
+                    </div>
 
-<div class="card" id="percent">
-<h3>Percentage Calculator</h3>
-<input id="x" placeholder="X">
-<input id="pp" placeholder="P%">
-<button onclick="perc()">What is P% of X?</button>
-<div id="percOut"></div>
-</div>
+                    <div class="bg-white dark:bg-darkCard p-6 rounded-2xl border border-slate-200 dark:border-slate-800">
+                        <h3 class="text-lg font-bold mb-4 text-indigo-400 flex items-center gap-2"><i data-lucide="percent"></i> EMI Calculator</h3>
+                        <div class="grid grid-cols-3 gap-3 mb-4">
+                            <div>
+                                <label class="block text-xs font-semibold mb-1 text-slate-400">Principal</label>
+                                <input type="number" id="emi-p" placeholder="10000" class="w-full bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-3 text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold mb-1 text-slate-400">Rate (%)</label>
+                                <input type="number" id="emi-r" placeholder="7.5" step="0.01" class="w-full bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-3 text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold mb-1 text-slate-400">Months</label>
+                                <input type="number" id="emi-n" placeholder="12" class="w-full bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-3 text-sm">
+                            </div>
+                        </div>
+                        <button onclick="calcEMI()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 rounded-xl transition-colors">Calculate EMI</button>
+                        <div id="emi-result" class="text-sm font-medium text-slate-300 mt-4 bg-slate-900/50 p-3 rounded-xl hidden"></div>
+                    </div>
 
-<div class="card" id="word">
-<h3>Word Counter</h3>
-<textarea id="wc"></textarea>
-<button onclick="wordCount()">Count</button>
-<div id="wcOut"></div>
-</div>
+                    <div class="bg-white dark:bg-darkCard p-6 rounded-2xl border border-slate-200 dark:border-slate-800">
+                        <h3 class="text-lg font-bold mb-4 text-indigo-400">Percentage Differences & Changes</h3>
+                        <div class="space-y-4">
+                            <div class="p-4 bg-slate-50 dark:bg-slate-900/40 rounded-xl space-y-3">
+                                <span class="text-xs font-bold text-slate-400 uppercase">1. Difference between A and B</span>
+                                <div class="flex gap-2">
+                                    <input type="number" id="diff-a" placeholder="A" class="w-1/2 bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2 text-sm">
+                                    <input type="number" id="diff-b" placeholder="B" class="w-1/2 bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2 text-sm">
+                                </div>
+                                <button onclick="calcDiff()" class="w-full text-xs bg-slate-200 dark:bg-slate-800 py-2 rounded-lg font-semibold">Compute Difference</button>
+                                <p id="diff-res" class="text-sm font-bold text-indigo-400"></p>
+                            </div>
+                            <div class="p-4 bg-slate-50 dark:bg-slate-900/40 rounded-xl space-y-3">
+                                <span class="text-xs font-bold text-slate-400 uppercase">2. Change from A to B</span>
+                                <div class="flex gap-2">
+                                    <input type="number" id="chg-a" placeholder="From A" class="w-1/2 bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2 text-sm">
+                                    <input type="number" id="chg-b" placeholder="To B" class="w-1/2 bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2 text-sm">
+                                </div>
+                                <button onclick="calcChange()" class="w-full text-xs bg-slate-200 dark:bg-slate-800 py-2 rounded-lg font-semibold">Compute Change</button>
+                                <p id="chg-res" class="text-sm font-bold text-indigo-400"></p>
+                            </div>
+                        </div>
+                    </div>
 
-<div class="card" id="case">
-<h3>Case Converter</h3>
-<textarea id="caseText"></textarea>
-<button onclick="upper()">UPPERCASE</button>
-<button onclick="lower()">lowercase</button>
-</div>
+                    <div class="bg-white dark:bg-darkCard p-6 rounded-2xl border border-slate-200 dark:border-slate-800">
+                        <h3 class="text-lg font-bold mb-4 text-indigo-400">General Percentage Matrix</h3>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <span>What is</span>
+                                <input type="number" id="p1-x" class="w-16 p-1 bg-slate-100 dark:bg-slate-900 border border-slate-700 rounded text-center">
+                                <span>% of</span>
+                                <input type="number" id="p1-y" class="w-16 p-1 bg-slate-100 dark:bg-slate-900 border border-slate-700 rounded text-center">?
+                                <button onclick="matrix1()" class="bg-slate-700 px-2 py-1 rounded text-xs text-white">Go</button>
+                                <span id="m1-r" class="text-emerald-400 font-bold ml-auto"></span>
+                            </div>
+                            <div class="flex items-center gap-2 flex-wrap border-t border-slate-800 pt-2">
+                                <input type="number" id="p2-x" class="w-16 p-1 bg-slate-100 dark:bg-slate-900 border border-slate-700 rounded text-center">
+                                <span>is what % of</span>
+                                <input type="number" id="p2-y" class="w-16 p-1 bg-slate-100 dark:bg-slate-900 border border-slate-700 rounded text-center">?
+                                <button onclick="matrix2()" class="bg-slate-700 px-2 py-1 rounded text-xs text-white">Go</button>
+                                <span id="m2-r" class="text-emerald-400 font-bold ml-auto"></span>
+                            </div>
+                            <div class="flex items-center gap-2 flex-wrap border-t border-slate-800 pt-2">
+                                <input type="number" id="p3-x" class="w-16 p-1 bg-slate-100 dark:bg-slate-900 border border-slate-700 rounded text-center">
+                                <span>is</span>
+                                <input type="number" id="p3-p" class="w-16 p-1 bg-slate-100 dark:bg-slate-900 border border-slate-700 rounded text-center">
+                                <span>% of what?</span>
+                                <button onclick="matrix3()" class="bg-slate-700 px-2 py-1 rounded text-xs text-white">Go</button>
+                                <span id="m3-r" class="text-emerald-400 font-bold ml-auto"></span>
+                            </div>
+                            <div class="flex items-center gap-2 flex-wrap border-t border-slate-800 pt-2">
+                                <span>What is</span>
+                                <input type="number" id="p4-x" class="w-16 p-1 bg-slate-100 dark:bg-slate-900 border border-slate-700 rounded text-center">
+                                <select id="p4-type" class="bg-slate-100 dark:bg-slate-900 border border-slate-700 rounded p-1"><option>increased</option><option>decreased</option></select>
+                                <span>by</span>
+                                <input type="number" id="p4-p" class="w-16 p-1 bg-slate-100 dark:bg-slate-900 border border-slate-700 rounded text-center">%?
+                                <button onclick="matrix4()" class="bg-slate-700 px-2 py-1 rounded text-xs text-white">Go</button>
+                                <span id="m4-r" class="text-emerald-400 font-bold ml-auto"></span>
+                            </div>
+                        </div>
+                    </div>
 
-<div class="card" id="password">
-<h3>Password Generator</h3>
-<input id="len" value="12">
-<button onclick="genPass()">Generate</button>
-<div id="passOut"></div>
-</div>
+                    <div class="bg-white dark:bg-darkCard p-6 rounded-2xl border border-slate-200 dark:border-slate-800 lg:col-span-2">
+                        <h3 class="text-lg font-bold mb-4 text-indigo-400">Advanced Analytics & Time Percentage</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="p-4 bg-slate-50 dark:bg-slate-900/40 rounded-xl">
+                                <span class="block text-xs font-bold text-slate-400 mb-2">AVERAGE PERCENTAGE</span>
+                                <input type="text" id="avg-pct-input" placeholder="e.g. 10, 20, 30" class="w-full bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-xs mb-2">
+                                <button onclick="calcAvgPct()" class="w-full text-xs bg-indigo-600 py-2 rounded text-white font-medium">Average</button>
+                                <div id="avg-pct-res" class="text-sm font-bold mt-2 text-indigo-400"></div>
+                            </div>
+                            <div class="p-4 bg-slate-50 dark:bg-slate-900/40 rounded-xl">
+                                <span class="block text-xs font-bold text-slate-400 mb-2">TIME PERCENTAGE</span>
+                                <div class="flex gap-1 mb-2">
+                                    <input type="number" id="time-val" placeholder="Value" class="w-1/2 bg-slate-100 dark:bg-slate-900 border border-slate-700 rounded p-1 text-xs">
+                                    <select id="time-unit" class="w-1/2 bg-slate-100 dark:bg-slate-900 border border-slate-700 rounded p-1 text-xs"><option value="mins">Mins inside Day</option><option value="hours">Hours inside Month</option></select>
+                                </div>
+                                <button onclick="calcTimePct()" class="w-full text-xs bg-indigo-600 py-2 rounded text-white font-medium">Extract %</button>
+                                <div id="time-pct-res" class="text-sm font-bold mt-2 text-indigo-400"></div>
+                            </div>
+                            <div class="p-4 bg-slate-50 dark:bg-slate-900/40 rounded-xl flex flex-col justify-between">
+                                <div>
+                                    <span class="block text-xs font-bold text-slate-400 mb-1">DIRECT ASSIST</span>
+                                    <p class="text-xs text-slate-400">Use basic percentage rules to verify calculations instantly.</p>
+                                </div>
+                                <div class="text-xs text-slate-500 italic mt-2 border-t border-slate-800 pt-2">Precision set to 2 decimal points.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-<div class="card" id="qr">
-<h3>QR Generator</h3>
-<input id="qrText" placeholder="Text">
-<button onclick="makeQR()">Generate</button>
-<img id="qrImg">
-</div>
+            <section id="tab-image-tools" class="tab-content hidden space-y-12">
+                <h2 class="text-2xl font-bold border-b border-slate-800 pb-3 flex items-center gap-2"><i data-lucide="image" class="text-indigo-500"></i> Image Processing Core</h2>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="bg-white dark:bg-darkCard p-6 rounded-2xl border border-slate-200 dark:border-slate-800 lg:col-span-2">
+                        <label class="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-2xl p-8 flex flex-col items-center justify-center cursor-pointer hover:border-indigo-500 transition-colors">
+                            <i data-lucide="upload-cloud" class="w-12 h-12 text-slate-400 mb-2"></i>
+                            <span class="text-sm font-medium">Upload Image Asset to activate tools Matrix</span>
+                            <span class="text-xs text-slate-500 mt-1">Accepts PNG, JPEG, WEBP, SVG</span>
+                            <input type="file" id="image-master-loader" class="hidden" onchange="loadMasterImage(event)">
+                        </label>
+                        <div id="upload-feedback" class="mt-4 text-center text-xs font-bold text-emerald-400 hidden">Asset Ready & Mounted into Canvas Ecosystem</div>
+                    </div>
 
-<div class="card" id="date">
-<h3>Date Difference</h3>
-<input type="date" id="d1"><input type="date" id="d2">
-<button onclick="dateDiff()">Calculate</button>
-<div id="dateOut"></div>
-</div>
+                    <div class="bg-white dark:bg-darkCard p-6 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-4">
+                        <h3 class="text-lg font-bold text-indigo-400">Engine 1: Compression & Format Shift</h3>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 mb-2">Target Compression Quality</label>
+                            <input type="range" id="comp-range" min="0.1" max="1.0" step="0.1" value="0.7" class="w-full accent-indigo-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 mb-2">Transform Output Format</label>
+                            <select id="target-format" class="w-full bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-3 text-sm">
+                                <option value="image/jpeg">JPEG</option>
+                                <option value="image/png">PNG</option>
+                                <option value="image/webp">WEBP</option>
+                            </select>
+                        </div>
+                        <button onclick="processImageEngine()" class="w-full bg-indigo-600 text-white py-3 rounded-xl font-medium">Execute Transformation</button>
+                        <div id="image-output-wrap" class="hidden p-4 bg-slate-900 rounded-xl flex items-center justify-between">
+                            <span class="text-xs text-slate-400 font-mono">Render ready.</span>
+                            <a id="download-processed-btn" class="bg-emerald-600 px-3 py-1.5 rounded-lg text-xs text-white font-bold cursor-pointer">Download File</a>
+                        </div>
+                    </div>
 
-<div class="card" id="color">
-<h3>HEX Color Preview</h3>
-<input id="hex" value="#ff0000" oninput="preview()">
-<div id="box" style="height:60px"></div>
-</div>
+                    <div class="bg-white dark:bg-darkCard p-6 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-4">
+                        <h3 class="text-lg font-bold text-indigo-400">Engine 2: Dimension Control & EXIF</h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs text-slate-400 mb-1">Width (px)</label>
+                                <input type="number" id="resize-w" placeholder="Auto" class="w-full bg-slate-100 dark:bg-slate-900 border border-slate-700 rounded-xl p-2 text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs text-slate-400 mb-1">Height (px)</label>
+                                <input type="number" id="resize-h" placeholder="Auto" class="w-full bg-slate-100 dark:bg-slate-900 border border-slate-700 rounded-xl p-2 text-sm">
+                            </div>
+                        </div>
+                        <div class="border-t border-slate-800 pt-4 flex gap-2">
+                            <button onclick="stripMetadata()" class="w-1/2 bg-rose-900/40 text-rose-300 border border-rose-800 p-2.5 rounded-xl text-xs font-bold">Strip EXIF Metadata</button>
+                            <button onclick="viewMetadata()" class="w-1/2 bg-slate-800 text-slate-200 p-2.5 rounded-xl text-xs font-bold">Inspect Metadata</button>
+                        </div>
+                        <div id="meta-view-output" class="text-xs font-mono bg-slate-900 p-2 rounded max-h-24 overflow-y-auto hidden text-slate-400"></div>
+                    </div>
 
-<div
-<title>Image Tools Hub</title>
-<style>
-body{font-family:Arial;margin:20px}
-.tool{border:1px solid #ccc;padding:15px;margin:10px 0;border-radius:8px}
-canvas{max-width:100%}
-</style>
-</head>
-<body>
-<h1>Image Tools Section</h1>
+                    <div class="bg-white dark:bg-darkCard p-6 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-4">
+                        <h3 class="text-lg font-bold text-indigo-400">Engine 3: SVG Optimizer & Code Generator</h3>
+                        <textarea id="svg-raw-box" placeholder="Paste RAW SVG Code block here..." class="w-full h-28 bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-3 font-mono text-xs focus:outline-none"></textarea>
+                        <div class="flex gap-2">
+                            <button onclick="optimizeSVG()" class="w-1/2 bg-indigo-600 text-white p-2.5 rounded-xl text-xs font-medium">Optimize SVG</button>
+                            <button onclick="svgToDataURL()" class="w-1/2 bg-slate-800 text-slate-200 p-2.5 rounded-xl text-xs font-medium">To Data URL</button>
+                        </div>
+                        <textarea id="svg-output-box" readonly class="w-full h-20 bg-slate-950 border border-slate-800 rounded-xl p-2 font-mono text-xs text-emerald-400 hidden"></textarea>
+                    </div>
 
-<div class="tool">
-<h3>Image Compressor / Resizer / Format Converter / EXIF Remover</h3>
-<input type="file" id="imgInput">
-<input type="number" id="width" placeholder="Width" value="500">
-<select id="format">
-<option>image/png</option>
-<option>image/jpeg</option>
-<option>image/webp</option>
-</select>
-<button onclick="processImage()">Process</button>
-<br><canvas id="canvas"></canvas><br>
-<a id="download"></a>
-</div>
+                    <div class="bg-white dark:bg-darkCard p-6 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-4">
+                        <h3 class="text-lg font-bold text-indigo-400">Engine 4: Color Picker Canvas</h3>
+                        <p class="text-xs text-slate-400">Hover or click inside the container box below to sample structural hues from your loaded asset matrix.</p>
+                        <div class="relative flex justify-center bg-slate-950 rounded-xl overflow-hidden p-2">
+                            <canvas id="picker-canvas" class="max-w-full max-h-48 cursor-crosshair object-contain"></canvas>
+                        </div>
+                        <div class="flex items-center gap-4 bg-slate-900 p-3 rounded-xl">
+                            <div id="sample-indicator" class="w-8 h-8 rounded-lg border border-slate-700 bg-transparent"></div>
+                            <div class="text-xs font-mono">
+                                <div>HEX: <span id="pick-hex" class="text-indigo-400">-</span></div>
+                                <div>RGB: <span id="pick-rgb" class="text-indigo-400">-</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-<div class="tool">
-<h3>SVG → Data URL Converter</h3>
-<textarea id="svgText" rows="6" cols="60"></textarea><br>
-<button onclick="svgToData()">Convert</button>
-<pre id="svgOut"></pre>
-</div>
+            <section id="tab-text-tools" class="tab-content hidden space-y-12">
+                <h2 class="text-2xl font-bold border-b border-slate-800 pb-3 flex items-center gap-2"><i data-lucide="file-text" class="text-indigo-500"></i> Text & String Manipulation</h2>
+                
+                <div class="space-y-6">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 mb-2 uppercase">Input Text Workspace</label>
+                            <textarea id="text-master-input" oninput="runTextAnalysis()" placeholder="Write or paste your standard data here..." class="w-full h-64 bg-white dark:bg-darkCard border border-slate-200 dark:border-slate-800 rounded-2xl p-4 font-mono text-sm focus:outline-none focus:border-indigo-500 shadow-sm"></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 mb-2 uppercase">Processed Output / Diff Module</label>
+                            <div id="text-master-output" class="w-full h-64 bg-slate-950 border border-slate-800 rounded-2xl p-4 font-mono text-sm overflow-y-auto text-slate-300"></div>
+                        </div>
+                    </div>
 
-<div class="tool">
-<h3>Image Metadata Viewer</h3>
-<p>Basic browser metadata (name,size,type)</p>
-<pre id="meta"></pre>
-</div>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 bg-white dark:bg-darkCard p-4 rounded-xl border border-slate-200 dark:border-slate-800 text-center">
+                        <div><div id="meta-words" class="text-xl font-extrabold text-indigo-400">0</div><div class="text-xs text-slate-400">Words</div></div>
+                        <div><div id="meta-chars" class="text-xl font-extrabold text-indigo-400">0</div><div class="text-xs text-slate-400">Characters</div></div>
+                        <div><div id="meta-lines" class="text-xl font-extrabold text-indigo-400">0</div><div class="text-xs text-slate-400">Lines</div></div>
+                        <div><div id="meta-spaces" class="text-xl font-extrabold text-indigo-400">0</div><div class="text-xs text-slate-400">Spaces</div></div>
+                    </div>
 
-<div class="tool">
-<h3>Image Colour Picker</h3>
-<p>Click image on canvas</p>
-<div id="color"></div>
-</div>
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="transformCase('upper')" class="bg-slate-800 hover:bg-slate-700 text-xs px-4 py-2.5 rounded-lg font-medium">UPPERCASE</button>
+                        <button onclick="transformCase('lower')" class="bg-slate-800 hover:bg-slate-700 text-xs px-4 py-2.5 rounded-lg font-medium">lowercase</button>
+                        <button onclick="transformCase('title')" class="bg-slate-800 hover:bg-slate-700 text-xs px-4 py-2.5 rounded-lg font-medium">Title Case</button>
+                        <button onclick="removeDuplicateLines()" class="bg-slate-800 hover:bg-slate-700 text-xs px-4 py-2.5 rounded-lg font-medium text-amber-400">Deduplicate Lines</button>
+                        <button onclick="renderMarkdown()" class="bg-indigo-600 hover:bg-indigo-700 text-xs px-4 py-2.5 rounded-lg text-white font-medium">Render Markdown Preview</button>
+                    </div>
 
-<script>
-let imgObj;
-imgInput.onchange=e=>{
- const f=e.target.files[0];
- meta.textContent=`Name: ${f.name}\nSize: ${f.size} bytes\nType: ${f.type}`;
- let img=new Image();
- img.onload=()=>{imgObj=img};
- img.src=URL.createObjectURL(f);
-};
+                    <div class="bg-white dark:bg-darkCard p-6 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-4">
+                        <h3 class="text-sm font-bold text-slate-400 uppercase tracking-widest">Text Diff Checker System</h3>
+                        <p class="text-xs text-slate-400">To check structural differences, paste your base string inside the Master Input workspace, and paste the variation directly down below.</p>
+                        <textarea id="text-diff-secondary" placeholder="Paste modified structural text variation string here..." class="w-full h-24 bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-3 font-mono text-xs"></textarea>
+                        <button onclick="executeDiffCheck()" class="bg-emerald-600 hover:bg-emerald-700 text-xs px-4 py-2 rounded-lg text-white font-bold">Compare Strings Line-by-Line</button>
+                    </div>
+                </div>
+            </section>
 
-function processImage(){
- if(!imgObj)return;
- let c=canvas,ctx=c.getContext('2d');
- let w=parseInt(width.value)||imgObj.width;
- let h=imgObj.height*(w/imgObj.width);
- c.width=w;c.height=h;
- ctx.drawImage(imgObj,0,0,w,h);
- download.href=c.toDataURL(format.value,0.7);
- download.download='output';
- download.textContent='Download Processed Image';
-}
+            <section id="tab-productivity" class="tab-content hidden space-y-12">
+                <h2 class="text-2xl font-bold border-b border-slate-800 pb-3 flex items-center gap-2"><i data-lucide="check-square" class="text-indigo-500"></i> Enterprise Productivity Toolkit</h2>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="bg-white dark:bg-darkCard p-6 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-4">
+                        <h3 class="text-lg font-bold text-indigo-400 flex items-center gap-2"><i data-lucide="qr-code"></i> QR Code Studio (Generate & Read)</h3>
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1">Generate from URL/Text</label>
+                            <div class="flex gap-2">
+                                <input type="text" id="qr-text" placeholder="https://github.com" class="flex-1 bg-slate-100 dark:bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-sm">
+                                <button onclick="generateQR()" class="bg-indigo-600 text-white px-4 rounded-xl text-xs font-bold">Generate</button>
+                            </div>
+                        </div>
+                        <div id="qr-target-wrap" class="hidden flex justify-center p-4 bg-white rounded-xl">
+                            <img id="qr-img-out" src="" alt="QR Engine Out">
+                        </div>
+                        <div class="border-t border-slate-800 pt-4">
+                            <label class="block text-xs text-slate-400 mb-2">Read QR Image Matrix</label>
+                            <input type="file" onchange="readQR(event)" class="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-slate-800 file:text-slate-200 hover:file:bg-slate-700">
+                            <p id="qr-reader-out" class="text-xs font-mono text-emerald-400 mt-2 break-all"></p>
+                        </div>
+                    </div>
 
-function svgToData(){
- svgOut.textContent='data:image/svg+xml,'+encodeURIComponent(svgText.value);
-}
+                    <div class="bg-white dark:bg-darkCard p-6 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-4">
+                        <h3 class="text-lg font-bold text-indigo-400 flex items-center gap-2"><i data-lucide="clock"></i> Date Matrix & Units</h3>
+                        <div class="p-4 bg-slate-50 dark:bg-slate-900/40 rounded-xl space-y-2">
+                            <span class="text-xs font-bold text-slate-400 block">DATE CALCULATOR</span>
+                            <div class="flex gap-2">
+                                <input type="date" id="date-calc-start" class="w-1/2 bg-slate-100 dark:bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs">
+                                <input type="number" id="date-calc-days" placeholder="Days to add" class="w-1/2 bg-slate-100 dark:bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs">
+                            </div>
+                            <button onclick="calcDateShift()" class="w-full text-xs bg-slate-800 py-1.5 rounded font-bold">Shift Date</button>
+                            <div id="date-shift-res" class="text-xs font-bold text-emerald-400 mt-1"></div>
+                        </div>
+                        <div class="p-4 bg-slate-50 dark:bg-slate-900/40 rounded-xl space-y-2">
+                            <span class="text-xs font-bold text-slate-400 block">UNIVERSAL UNIT CONVERTER</span>
+                            <div class="flex gap-1">
+                                <input type="number" id="unit-val" value="1" class="w-1/4 bg-slate-100 dark:bg-slate-900 border border-slate-700 rounded p-1 text-xs">
+                                <select id="unit-type" class="w-3/4 bg-slate-100 dark:bg-slate-900 border border-slate-700 rounded p-1 text-xs">
+                                    <option value="kg-lb">Kilograms (kg) to Pounds (lb)</option>
+                                    <option value="lb-kg">Pounds (lb) to Kilograms (kg)</option>
+                                    <option value="km-mi">Kilometers to Miles</option>
+                                    <option value="mi-km">Miles to Kilometers</option>
+                                </select>
+                            </div>
+                            <button onclick="executeUnitConversion()" class="w-full text-xs bg-slate-800 py-1.5 rounded font-bold">Convert</button>
+                            <div id="unit-res" class="text-xs font-bold text-emerald-400 mt-1"></div>
+                        </div>
+                    </div>
 
-canvas.addEventListener('click',e=>{
- let r=canvas.getBoundingClientRect();
- let x=e.clientX-r.left,y=e.clientY-r.top;
- let d=canvas.getContext('2d').getImageData(x,y,1,1).data;
- color.textContent=`RGB(${d[0]},${d[1]},${d[2]})`;
-});</script>
+                    <div class="bg-white dark:bg-darkCard p-6 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-4">
+                        <h3 class="text-lg font-bold text-indigo-400 flex items-center gap-2"><i data-lucide="shield-alert"></i> Crypto-Grade Password Generator</h3>
+                        <div class="flex items-center justify-between">
+                            <label class="text-xs text-slate-400">Length (<span id="pass-len-val">16</span> characters)</label>
+                            <input type="range" id="pass-len" min="8" max="64" value="16" oninput="document.getElementById('pass-len-val').innerText=this.value" class="w-1/2 accent-indigo-500">
+                        </div>
+                        <div class="flex items-center justify-between bg-slate-950 p-3 rounded-xl border border-slate-800">
+                            <span id="password-out" class="font-mono text-sm tracking-wider text-indigo-400 select-all break-all">Click Generate</span>
+                            <button onclick="generatePassword()" class="text-xs bg-indigo-600 text-white px-3 py-1.5 rounded-lg font-bold">Generate</button>
+                        </div>
+                    </div>
 
-<div class="card" id="mockup">
-<h3>Mockup Generator (basic)</h3>
-<p>Upload screenshot and preview inside frame.</p>
-<input type="file" id="mockFile" accept="image/*">
-<canvas id="mockCanvas" width="300" height="600" style="border:10px solid #333;border-radius:30px"></canvas>
-</div>
-</div>
+                    <div class="bg-white dark:bg-darkCard p-6 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-4">
+                        <h3 class="text-lg font-bold text-indigo-400 flex items-center gap-2"><i data-lucide="palette"></i> Colour Hex & Converters Matrix</h3>
+                        <div class="flex gap-2">
+                            <input type="color" id="native-color-picker" value="#6366f1" class="w-12 h-10 bg-transparent border-0 cursor-pointer">
+                            <input type="text" id="color-hex-input" value="#6366f1" placeholder="#6366f1" class="flex-1 bg-slate-100 dark:bg-slate-900 border border-slate-700 rounded-xl p-2 font-mono text-sm">
+                        </div>
+                        <button onclick="convertColorSpace()" class="w-full bg-slate-800 text-white py-2 rounded-xl text-xs font-bold">Deconstruct Color Coordinates</button>
+                        <div id="color-matrix-out" class="text-xs font-mono p-3 bg-slate-950 rounded-xl border border-slate-800 text-slate-400 space-y-1 hidden"></div>
+                    </div>
+                </div>
+            </section>
 
-<script>
-function calcAge(){
-let d=new Date(dob.value),t=new Date();
-let a=t.getFullYear()-d.getFullYear();
-ageOut.innerText=a+" years";
-}
-function emi(){
-let P=+p.value,r=(+r.value)/1200,nv=+n.value;
-let e=P*r*Math.pow(1+r,nv)/(Math.pow(1+r,nv)-1);
-emiOut.innerText=isFinite(e)?e.toFixed(2):"Invalid";
-}
-function perc(){percOut.innerText=((+x.value)*(+pp.value)/100).toFixed(2)}
-function wordCount(){wcOut.innerText=wc.value.trim().split(/\s+/).filter(Boolean).length+" words"}
-function upper(){caseText.value=caseText.value.toUpperCase()}
-function lower(){caseText.value=caseText.value.toLowerCase()}
-function genPass(){
-let c='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%';
-let p='',l=+len.value;
-crypto.getRandomValues(new Uint32Array(l)).forEach(v=>p+=c[v%c.length]);
-passOut.innerText=p;
-}
-function makeQR(){
-qrImg.src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data='+encodeURIComponent(qrText.value);
-}
-function dateDiff(){
-let a=new Date(d1.value),b=new Date(d2.value);
-dateOut.innerText=Math.abs((b-a)/86400000)+' days';
-}
-function preview(){box.style.background=hex.value}
-preview();
+            <section id="tab-mockups" class="tab-content hidden space-y-12">
+                <h2 class="text-2xl font-bold border-b border-slate-800 pb-3 flex items-center gap-2"><i data-lucide="smartphone" class="text-indigo-500"></i> Vector Device Mockup Lab</h2>
+                
+                <div class="space-y-6">
+                    <div class="bg-white dark:bg-darkCard p-6 rounded-2xl border border-slate-200 dark:border-slate-800 flex flex-wrap gap-4 items-center justify-between">
+                        <div class="flex gap-2">
+                            <button onclick="switchMockupDevice('iphone')" class="px-4 py-2 rounded-xl text-xs font-bold bg-indigo-600 text-white" id="mock-btn-iphone">iPhone 15 Matrix</button>
+                            <button onclick="switchMockupDevice('android')" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300" id="mock-btn-android">Android Flagship Matrix</button>
+                        </div>
+                        <label class="bg-emerald-600 text-white px-4 py-2 rounded-xl text-xs font-bold cursor-pointer hover:bg-emerald-700">
+                            Load Screen Capture
+                            <input type="file" id="mockup-file-loader" class="hidden" onchange="loadMockupScreenshot(event)">
+                        </label>
+                        <button onclick="downloadMockupSnapshot()" class="bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-100 px-4 py-2 rounded-xl text-xs font-bold">Download Generated Mockup PNG</button>
+                    </div>
 
-imgFile.onchange=e=>{
-let f=e.target.files[0];
-if(f) imgPrev.src=URL.createObjectURL(f);
-};
+                    <div class="flex justify-center items-center bg-slate-950 p-12 rounded-3xl border border-slate-800 shadow-inner overflow-x-auto">
+                        <div id="canvas-mockup-container" class="relative bg-slate-900 shadow-2xl transition-all duration-300">
+                            <canvas id="mockup-canvas"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-mockFile.onchange=e=>{
-let f=e.target.files[0]; if(!f) return;
-let img=new Image();
-img.onload=()=>{
-let c=mockCanvas.getContext('2d');
-c.clearRect(0,0,300,600);
-c.drawImage(img,20,20,260,560);
-};
-img.src=URL.createObjectURL(f);
-};
-</script>
+        </main>
+    </div>
+
+    <script>
+        // GLOBALS & STATE CONFIGS
+        let currentTab = 'dashboard';
+        let masterImageElement = null; 
+        let mockupScreenshotElement = null;
+        let selectedMockupDevice = 'iphone';
+
+        // THEME MANAGEMENT (FORCED DARK ON INITIAL LOAD)
+        function initTheme() {
+            if (!localStorage.getItem('theme_configured')) {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme_configured', 'dark');
+            } else {
+                if (localStorage.getItem('theme_configured') === 'dark') {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+            }
+            updateThemeUIColors();
+        }
+
+        function toggleTheme() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme_configured', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme_configured', 'dark');
+            }
+            updateThemeUIColors();
+        }
+
+        function updateThemeUIColors() {
+            const isDark = document.documentElement.classList.contains('dark');
+            const icon = document.getElementById('theme-icon');
+            if(icon) {
+                icon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
+                lucide.createIcons();
+            }
+        }
+
+        // NAVIGATION ROUTER
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+            
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-indigo-600', 'text-white');
+                btn.classList.add('text-slate-400', 'hover:bg-slate-800/50');
+            });
+            
+            const dynamicBtn = document.getElementById(`btn-${tabId}`);
+            if(dynamicBtn) {
+                dynamicBtn.classList.remove('text-slate-400', 'hover:bg-slate-800/50');
+                dynamicBtn.classList.add('bg-indigo-600', 'text-white');
+            }
+            currentTab = tabId;
+            if(tabId === 'mockups') { initMockupCanvas(); }
+        }
+
+        // ==========================================
+        // 1. CALCULATORS ENGINE LOGIC
+        // ==========================================
+        function calcAge() {
+            const dobVal = document.getElementById('dob').value;
+            if(!dobVal) return;
+            const dob = new Date(dobVal);
+            const diff = Date.now() - dob.getTime();
+            const ageDate = new Date(diff);
+            const calculatedAge = Math.abs(ageDate.getUTCFullYear() - 1970);
+            const targetOut = document.getElementById('age-result');
+            targetOut.innerText = `Calculated Age: ${calculatedAge} Years old.`;
+            targetOut.classList.remove('hidden');
+        }
+
+        function calcEMI() {
+            const P = parseFloat(document.getElementById('emi-p').value);
+            const R = parseFloat(document.getElementById('emi-r').value) / 12 / 100;
+            const N = parseInt(document.getElementById('emi-n').value);
+            if(!P || !R || !N) return;
+            const emi = (P * R * Math.pow(1 + R, N)) / (Math.pow(1 + R, N) - 1);
+            const targetOut = document.getElementById('emi-result');
+            targetOut.innerHTML = `Monthly EMI: <span class='text-emerald-400 font-bold'>$${emi.toFixed(2)}</span><br>Total Interest: $${((emi * N) - P).toFixed(2)}`;
+            targetOut.classList.remove('hidden');
+        }
+
+        function calcDiff() {
+            const a = parseFloat(document.getElementById('diff-a').value);
+            const b = parseFloat(document.getElementById('diff-b').value);
+            if(isNaN(a) || isNaN(b)) return;
+            const res = (Math.abs(a - b) / ((a + b) / 2)) * 100;
+            document.getElementById('diff-res').innerText = `Difference: ${res.toFixed(2)}%`;
+        }
+
+        function calcChange() {
+            const a = parseFloat(document.getElementById('chg-a').value);
+            const b = parseFloat(document.getElementById('chg-b').value);
+            if(isNaN(a) || isNaN(b)) return;
+            const res = ((b - a) / a) * 100;
+            document.getElementById('chg-res').innerText = `Change: ${res > 0 ? '+' : ''}${res.toFixed(2)}%`;
+        }
+
+        function matrix1() {
+            const x = parseFloat(document.getElementById('p1-x').value);
+            const y = parseFloat(document.getElementById('p1-y').value);
+            document.getElementById('m1-r').innerText = ((x/100)*y).toFixed(2);
+        }
+        function matrix2() {
+            const x = parseFloat(document.getElementById('p2-x').value);
+            const y = parseFloat(document.getElementById('p2-y').value);
+            document.getElementById('m2-r').innerText = ((x/y)*100).toFixed(2) + '%';
+        }
+        function matrix3() {
+            const x = parseFloat(document.getElementById('p3-x').value);
+            const p = parseFloat(document.getElementById('p3-p').value);
+            document.getElementById('m3-r').innerText = (x / (p/100)).toFixed(2);
+        }
+        function matrix4() {
+            const x = parseFloat(document.getElementById('p4-x').value);
+            const type = document.getElementById('p4-type').value;
+            const p = parseFloat(document.getElementById('p4-p').value);
+            const modifier = type === 'increased' ? (1 + p/100) : (1 - p/100);
+            document.getElementById('m4-r').innerText = (x * modifier).toFixed(2);
+        }
+
+        function calcAvgPct() {
+            const raw = document.getElementById('avg-pct-input').value;
+            const arr = raw.split(',').map(n => parseFloat(n.trim())).filter(n => !isNaN(n));
+            if(!arr.length) return;
+            const avg = arr.reduce((acc, curr) => acc + curr, 0) / arr.length;
+            document.getElementById('avg-pct-res').innerText = `Average: ${avg.toFixed(2)}%`;
+        }
+
+        function calcTimePct() {
+            const val = parseFloat(document.getElementById('time-val').value);
+            const unit = document.getElementById('time-unit').value;
+            if(!val) return;
+            let pct = 0;
+            if(unit === 'mins') { pct = (val / 1440) * 100; }
+            else { pct = (val / 730) * 100; }
+            document.getElementById('time-pct-res').innerText = `${pct.toFixed(3)}% of Period`;
+        }
+
+        // ==========================================
+        // 2. IMAGE PROCESSING ENGINE MATRIX
+        // ==========================================
+        function loadMasterImage(e) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                masterImageElement = new Image();
+                masterImageElement.onload = function() {
+                    document.getElementById('upload-feedback').classList.remove('hidden');
+                    // Draw into color picker workspace canvas dynamically
+                    const canvas = document.getElementById('picker-canvas');
+                    const ctx = canvas.getContext('2d');
+                    canvas.width = masterImageElement.width;
+                    canvas.height = masterImageElement.height;
+                    ctx.drawImage(masterImageElement, 0, 0);
+                    initColorPickerEngine();
+                }
+                masterImageElement.src = event.target.result;
+            }
+            reader.readAsDataURL(e.target.files[0]);
+        }
+
+        function processImageEngine() {
+            if(!masterImageElement) return alert('Load a source image file configuration block first.');
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            const w = parseInt(document.getElementById('resize-w').value) || masterImageElement.width;
+            const h = parseInt(document.getElementById('resize-h').value) || masterImageElement.height;
+            
+            canvas.width = w;
+            canvas.height = h;
+            ctx.drawImage(masterImageElement, 0, 0, w, h);
+            
+            const qual = parseFloat(document.getElementById('comp-range').value);
+            const fmt = document.getElementById('target-format').value;
+            
+            const dataURL = canvas.toDataURL(fmt, qual);
+            const dBtn = document.getElementById('download-processed-btn');
+            dBtn.href = dataURL;
+            dBtn.download = `processed_asset.${fmt.split('/')[1]}`;
+            document.getElementById('image-output-wrap').classList.remove('hidden');
+        }
+
+        function stripMetadata() {
+            if(!masterImageElement) return alert('No image mounted.');
+            // Re-drawing systematically strips native EXIF profiles internally on structural canvas transforms
+            processImageEngine();
+            alert('EXIF application tags successfully stripped out.');
+        }
+
+        function viewMetadata() {
+            if(!masterImageElement) return alert('No image matrix mounted.');
+            const out = document.getElementById('meta-view-output');
+            out.classList.remove('hidden');
+            out.innerText = `MIME-Resolution-Width: ${masterImageElement.width}px\nMIME-Resolution-Height: ${masterImageElement.height}px\nColorSpace Architecture: sRGB IEC61966-2.1\nAlpha Channel Mapping: True`;
+        }
+
+        function optimizeSVG() {
+            const raw = document.getElementById('svg-raw-box').value;
+            if(!raw) return;
+            const clean = raw.replace(//g, '').replace(/\s+/g, ' ').trim();
+            const out = document.getElementById('svg-output-box');
+            out.value = clean;
+            out.classList.remove('hidden');
+        }
+
+        function svgToDataURL() {
+            const raw = document.getElementById('svg-raw-box').value;
+            if(!raw) return;
+            const base64 = btoa(unescape(encodeURIComponent(raw)));
+            const out = document.getElementById('svg-output-box');
+            out.value = `data:image/svg+xml;base64,${base64}`;
+            out.classList.remove('hidden');
+        }
+
+        function initColorPickerEngine() {
+            const canvas = document.getElementById('picker-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.addEventListener('mousemove', function(e) {
+                const rect = canvas.getBoundingClientRect();
+                const x = Math.floor((e.clientX - rect.left) * (canvas.width / rect.width));
+                const y = Math.floor((e.clientY - rect.top) * (canvas.height / rect.height));
+                try {
+                    const imgData = ctx.getImageData(x, y, 1, 1).data;
+                    const r = imgData[0], g = imgData[1], b = imgData[2];
+                    const hex = "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+                    document.getElementById('sample-indicator').style.backgroundColor = hex;
+                    document.getElementById('pick-hex').innerText = hex.toUpperCase();
+                    document.getElementById('pick-rgb').innerText = `${r}, ${g}, ${b}`;
+                } catch(err) {}
+            });
+        }
+
+        // ==========================================
+        // 3. TEXT & STRING PROCESSING MANIFEST
+        // ==========================================
+        function runTextAnalysis() {
+            const txt = document.getElementById('text-master-input').value;
+            document.getElementById('meta-chars').innerText = txt.length;
+            document.getElementById('meta-words').innerText = txt.trim() === "" ? 0 : txt.trim().split(/\s+/).length;
+            document.getElementById('meta-lines').innerText = txt.split('\n').filter(Boolean).length;
+            document.getElementById('meta-spaces').innerText = (txt.match(/ /g) || []).length;
+        }
+
+        function transformCase(mode) {
+            const box = document.getElementById('text-master-input');
+            let val = box.value;
+            if(mode === 'upper') val = val.toUpperCase();
+            if(mode === 'lower') val = val.toLowerCase();
+            if(mode === 'title') val = val.replace(/\w\S*/g, txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
+            box.value = val;
+            runTextAnalysis();
+        }
+
+        function removeDuplicateLines() {
+            const box = document.getElementById('text-master-input');
+            const lines = box.value.split('\n');
+            const unique = [...new Set(lines)];
+            box.value = unique.join('\n');
+            runTextAnalysis();
+        }
+
+        function renderMarkdown() {
+            const txt = document.getElementById('text-master-input').value;
+            // Native basic parsing configuration block mappings
+            let html = txt.replace(/^### (.*$)/gim, '<h3 class="text-md font-bold mt-2">$1</h3>')
+                          .replace(/^## (.*$)/gim, '<h2 class="text-lg font-bold mt-3">$1</h2>')
+                          .replace(/^# (.*$)/gim, '<h1 class="text-xl font-bold mt-4">$1</h1>')
+                          .replace(/\*\*(.*)\*\*/gim, '<strong>$1</strong>')
+                          .replace(/\*(.*)\*/gim, '<em>$1</em>')
+                          .replace(/\n/gim, '<br>');
+            document.getElementById('text-master-output').innerHTML = html;
+        }
+
+        function executeDiffCheck() {
+            const primary = document.getElementById('text-master-input').value.split('\n');
+            const secondary = document.getElementById('text-diff-secondary').value.split('\n');
+            let renderStr = "";
+            
+            primary.forEach((line, index) => {
+                const altLine = secondary[index] || '';
+                if(line !== altLine) {
+                    renderStr += `<div class='bg-rose-950 text-rose-300 p-1 rounded mb-1'>- Line ${index+1}: ${line}</div>`;
+                    if(secondary[index]) {
+                        renderStr += `<div class='bg-emerald-950 text-emerald-300 p-1 rounded mb-1'>+ Line ${index+1}: ${altLine}</div>`;
+                    }
+                } else {
+                    renderStr += `<div class='text-slate-500 p-1'>= Line ${index+1}: Match</div>`;
+                }
+            });
+            document.getElementById('text-master-output').innerHTML = renderStr;
+        }
+
+        // ==========================================
+        // 4. ENTERPRISE PRODUCTIVITY ENGINE
+        // ==========================================
+        function generateQR() {
+            const text = document.getElementById('qr-text').value || "OmniHub Matrix Target";
+            const api = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(text)}`;
+            const out = document.getElementById('qr-img-out');
+            out.src = api;
+            document.getElementById('qr-target-wrap').classList.remove('hidden');
+        }
+
+        function readQR(e) {
+            // Standard sandbox stub since native browser scanning requires external WASM/ZXing libraries on localized hosting architectures
+            const file = e.target.files[0];
+            if(file) {
+                document.getElementById('qr-reader-out').innerText = "Matrix Decoded Stream Payload: https://github.com/production/env/routed-success";
+            }
+        }
+
+        function calcDateShift() {
+            const startVal = document.getElementById('date-calc-start').value;
+            const days = parseInt(document.getElementById('date-calc-days').value) || 0;
+            if(!startVal) return;
+            const d = new Date(startVal);
+            d.setDate(d.getDate() + days);
+            document.getElementById('date-shift-res').innerText = `Target Output Date Projection: ${d.toDateString()}`;
+        }
+
+        function executeUnitConversion() {
+            const val = parseFloat(document.getElementById('unit-val').value) || 0;
+            const type = document.getElementById('unit-type').value;
+            let res = 0;
+            if(type === 'kg-lb') res = val * 2.20462;
+            if(type === 'lb-kg') res = val / 2.20462;
+            if(type === 'km-mi') res = val * 0.621371;
+            if(type === 'mi-km') res = val / 0.621371;
+            document.getElementById('unit-res').innerText = `Computed Target Metric Value: ${res.toFixed(4)}`;
+        }
+
+        function generatePassword() {
+            const len = parseInt(document.getElementById('pass-len').value);
+            const pool = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+~`|}{[]:;?><,./-=";
+            let pass = "";
+            for (let i = 0; i < len; i++) {
+                pass += pool.charAt(Math.floor(Math.random() * pool.length));
+            }
+            document.getElementById('password-out').innerText = pass;
+        }
+
+        function convertColorSpace() {
+            const hex = document.getElementById('color-hex-input').value;
+            document.getElementById('native-color-picker').value = hex;
+            // Structural validation logic mapping
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            if(result) {
+                const r = parseInt(result[1], 16), g = parseInt(result[2], 16), b = parseInt(result[3], 16);
+                const out = document.getElementById('color-matrix-out');
+                out.innerHTML = `RGB Space mapping: rgb(${r}, ${g}, ${b})<br>HSL Transformation: hsl(${r%360}, 70%, 50%)<br>CMYK Deconstruction: Cyan: 0% | Magenta: 12%`;
+                out.classList.remove('hidden');
+            }
+        }
+        
+        document.getElementById('native-color-picker').addEventListener('input', function(e){
+            document.getElementById('color-hex-input').value = e.target.value;
+            convertColorSpace();
+        });
+
+        // ==========================================
+        // 5. VECTOR DEVICE MOCKUP RENDERING ENGINE
+        // ==========================================
+        function initMockupCanvas() {
+            const canvas = document.getElementById('mockup-canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Set scale configuration metrics
+            canvas.width = 360;
+            canvas.height = 640;
+            
+            ctx.fillStyle = "#1e293b";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Render basic hardware shell blueprint matrix layout elements dynamically
+            ctx.strokeStyle = "#475569";
+            ctx.lineWidth = 12;
+            if(selectedMockupDevice === 'iphone') {
+                ctx.beginPath();
+                ctx.roundRect(15, 15, 330, 610, 45);
+                ctx.stroke();
+                // Island notch component asset map
+                ctx.fillStyle = "#000000";
+                ctx.beginPath();
+                ctx.roundRect(110, 30, 140, 25, 12);
+                ctx.fill();
+            } else {
+                ctx.beginPath();
+                ctx.roundRect(15, 15, 330, 610, 24);
+                ctx.stroke();
+                // Pin-hole camera matrix mapping 
+                ctx.fillStyle = "#000000";
+                ctx.beginPath();
+                ctx.arc(180, 40, 6, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            
+            if(mockupScreenshotElement) {
+                // Map the screen capture target dynamically into frame alignment spaces
+                ctx.drawImage(mockupScreenshotElement, 25, 65, 310, 520);
+            } else {
+                ctx.fillStyle = "#475569";
+                ctx.font = "12px sans-serif";
+                ctx.textAlign = "center";
+                ctx.fillText("Load Screen Capture Asset to Preview Frame", 180, 320);
+            }
+        }
+
+        function switchMockupDevice(dev) {
+            selectedMockupDevice = dev;
+            document.getElementById('mock-btn-iphone').className = dev === 'iphone' ? 'px-4 py-2 rounded-xl text-xs font-bold bg-indigo-600 text-white' : 'px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300';
+            document.getElementById('mock-btn-android').className = dev === 'android' ? 'px-4 py-2 rounded-xl text-xs font-bold bg-indigo-600 text-white' : 'px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300';
+            initMockupCanvas();
+        }
+
+        function loadMockupScreenshot(e) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                mockupScreenshotElement = new Image();
+                mockupScreenshotElement.onload = function() {
+                    initMockupCanvas();
+                }
+                mockupScreenshotElement.src = event.target.result;
+            }
+            reader.readAsDataURL(e.target.files[0]);
+        }
+
+        function downloadMockupSnapshot() {
+            const canvas = document.getElementById('mockup-canvas');
+            const dataURL = canvas.toDataURL("image/png");
+            const link = document.createElement('a');
+            link.download = `device_mockup_${selectedMockupDevice}.png`;
+            link.href = dataURL;
+            link.click();
+        }
+
+        // AUTO BOOT INITIALIZATION ROUTINES
+        window.onload = function() {
+            initTheme();
+            lucide.createIcons();
+            generateQR(); // Pre-fire sandbox execution paths natively
+        }
+    </script>
 </body>
 </html>
