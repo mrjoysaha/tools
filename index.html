@@ -3,24 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Premium Modern Website</title>
+<title>Premium Modern Dashboard</title>
 
 <style>
+/* ==========================
+   PREMIUM MODERN WEBSITE
+   ========================== */
+
 :root{
     --bg:#0f172a;
-    --bg2:#1e293b;
-    --glass:rgba(255,255,255,.08);
+    --card:rgba(255,255,255,0.08);
+    --card-hover:rgba(255,255,255,0.12);
     --text:#ffffff;
-    --border:rgba(255,255,255,.12);
-    --shadow:0 8px 30px rgba(0,0,0,.25);
+    --border:rgba(255,255,255,0.12);
+    --primary:#3b82f6;
+    --shadow:0 10px 30px rgba(0,0,0,.25);
 }
 
 body.light{
-    --bg:#f8fafc;
-    --bg2:#e2e8f0;
-    --glass:rgba(255,255,255,.7);
-    --text:#0f172a;
+    --bg:#f4f7fb;
+    --card:rgba(255,255,255,.75);
+    --card-hover:rgba(255,255,255,.95);
+    --text:#111827;
     --border:rgba(0,0,0,.08);
 }
 
@@ -39,98 +43,150 @@ body{
     min-height:100vh;
     color:var(--text);
     background:
-        radial-gradient(circle at top left,#2563eb33,transparent 30%),
-        radial-gradient(circle at bottom right,#7c3aed33,transparent 30%),
-        var(--bg);
+    radial-gradient(circle at top left,#2563eb25,transparent 25%),
+    radial-gradient(circle at bottom right,#9333ea25,transparent 25%),
+    var(--bg);
     transition:.3s;
 }
 
-/* HEADER */
+/* ==========================
+   LOADER
+   ========================== */
+
+#loader{
+    position:fixed;
+    inset:0;
+    background:var(--bg);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:99999;
+}
+
+.spinner{
+    width:55px;
+    height:55px;
+    border:4px solid rgba(255,255,255,.2);
+    border-top:4px solid var(--primary);
+    border-radius:50%;
+    animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+/* ==========================
+   HEADER
+   ========================== */
 
 header{
     position:fixed;
     top:0;
+    left:0;
     width:100%;
-    height:72px;
-    z-index:1000;
+    height:70px;
 
     display:flex;
     align-items:center;
     justify-content:center;
 
     backdrop-filter:blur(20px);
-    background:var(--glass);
+    background:var(--card);
+
     border-bottom:1px solid var(--border);
+
+    z-index:1000;
 }
 
 .logo{
     font-size:24px;
     font-weight:700;
     letter-spacing:1px;
+    animation:float 3s ease-in-out infinite;
 }
 
-/* HAMBURGER */
+@keyframes float{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-4px);}
+}
 
-.menu-toggle{
+/* ==========================
+   HAMBURGER MENU
+   ========================== */
+
+.menu-btn{
     position:absolute;
     left:20px;
-    width:32px;
-    height:24px;
+    width:30px;
     cursor:pointer;
 }
 
-.menu-toggle span{
+.menu-btn span{
     display:block;
-    width:100%;
     height:3px;
-    margin:5px 0;
+    margin:6px 0;
     background:var(--text);
     transition:.3s;
 }
 
-.menu-toggle.active span:nth-child(1){
+.menu-btn.active span:nth-child(1){
     transform:rotate(45deg) translate(6px,6px);
 }
 
-.menu-toggle.active span:nth-child(2){
+.menu-btn.active span:nth-child(2){
     opacity:0;
 }
 
-.menu-toggle.active span:nth-child(3){
-    transform:rotate(-45deg) translate(6px,-6px);
+.menu-btn.active span:nth-child(3){
+    transform:rotate(-45deg) translate(7px,-7px);
 }
 
-/* THEME */
+/* ==========================
+   THEME BUTTON
+   ========================== */
 
 .theme-btn{
     position:absolute;
     right:20px;
+
     border:none;
     cursor:pointer;
+
     padding:10px 14px;
-    border-radius:30px;
-    background:var(--glass);
+
+    border-radius:20px;
+
+    background:var(--card);
+
     color:var(--text);
-    backdrop-filter:blur(10px);
+
     border:1px solid var(--border);
 }
 
-/* SIDEBAR */
+/* ==========================
+   SIDEBAR
+   ========================== */
 
 .sidebar{
     position:fixed;
     top:0;
     left:-300px;
+
     width:280px;
     height:100vh;
 
-    backdrop-filter:blur(30px);
-    background:var(--glass);
+    backdrop-filter:blur(25px);
+    background:var(--card);
 
     border-right:1px solid var(--border);
 
-    transition:.4s ease;
+    transition:.35s ease;
+
     z-index:1200;
+
     padding-top:90px;
 }
 
@@ -138,30 +194,54 @@ header{
     left:0;
 }
 
+.sidebar h3{
+    padding:0 20px 20px;
+}
+
+.search-box{
+    padding:0 20px 20px;
+}
+
+.search-box input{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    outline:none;
+}
+
 .sidebar a{
     display:block;
-    color:var(--text);
     text-decoration:none;
-    margin:10px 20px;
-    padding:15px;
+    color:var(--text);
+
+    margin:8px 15px;
+    padding:14px;
+
     border-radius:12px;
+
     transition:.3s;
 }
 
 .sidebar a:hover{
-    background:rgba(255,255,255,.08);
-    transform:translateX(5px);
+    background:var(--card-hover);
+    transform:translateX(4px);
 }
 
-/* OVERLAY */
+/* ==========================
+   OVERLAY
+   ========================== */
 
 .overlay{
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,.4);
+    background:rgba(0,0,0,.45);
+
     opacity:0;
     visibility:hidden;
+
     transition:.3s;
+
     z-index:1100;
 }
 
@@ -170,7 +250,9 @@ header{
     visibility:visible;
 }
 
-/* HERO */
+/* ==========================
+   HERO
+   ========================== */
 
 .hero{
     padding-top:120px;
@@ -190,88 +272,93 @@ header{
     opacity:.8;
 }
 
-/* BUTTON GRID */
+/* ==========================
+   BUTTON GRID
+   ========================== */
 
 .container{
-    max-width:600px;
+    max-width:900px;
     margin:auto;
-    padding:0px 0px;
+    padding:40px 20px;
 }
 
 .grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
     max-width:450px;
     margin:auto;
-    gap:12px;
 }
 
 .card-btn{
-    padding:12px 10px;
-    min-height:70px;
-    
-    text-align:center;
-    cursor:pointer;
+    min-height:75px;
+    padding:12px;
 
     border-radius:16px;
-
-    background:var(--glass);
-    backdrop-filter:blur(25px);
-
-    border:1px solid var(--border);
-
-    box-shadow:var(--shadow);
-
-    transition:.3s;
 
     display:flex;
     flex-direction:column;
     justify-content:center;
     align-items:center;
+
+    cursor:pointer;
+
+    border:1px solid var(--border);
+
+    background:var(--card);
+
+    backdrop-filter:blur(20px);
+
+    box-shadow:var(--shadow);
+
+    transition:.3s;
 }
 
 .card-btn:hover{
-    transform:translateY(-8px);
+    transform:translateY(-5px);
 }
 
 .card-btn h3{
-    font-size:16px;
+    font-size:15px;
     margin-bottom:4px;
 }
 
 .card-btn p{
-    font-size:12px;
+    font-size:11px;
     opacity:.8;
 }
 
 .card-btn:nth-child(1){
-    background:
-    linear-gradient(135deg,#2563eb55,#3b82f655);
+    background:linear-gradient(135deg,#2563eb55,#3b82f655);
 }
 
 .card-btn:nth-child(2){
-    background:
-    linear-gradient(135deg,#7c3aed55,#8b5cf655);
+    background:linear-gradient(135deg,#7c3aed55,#8b5cf655);
 }
 
 .card-btn:nth-child(3){
-    background:
-    linear-gradient(135deg,#0891b255,#06b6d455);
+    background:linear-gradient(135deg,#0891b255,#06b6d455);
 }
 
 .card-btn:nth-child(4){
-    background:
-    linear-gradient(135deg,#ea580c55,#f9731655);
+    background:linear-gradient(135deg,#ea580c55,#f9731655);
 }
 
-/* POPUP */
+/* ==========================
+   POPUP
+   ========================== */
 
 .popup{
     display:none;
     position:fixed;
     inset:0;
+
     justify-content:center;
     align-items:center;
-    z-index:2000;
+
     background:rgba(0,0,0,.5);
+
+    z-index:3000;
 }
 
 .popup.show{
@@ -280,28 +367,29 @@ header{
 
 .popup-box{
     width:90%;
-    max-width:450px;
+    max-width:420px;
 
     padding:30px;
 
-    border-radius:22px;
+    border-radius:20px;
 
-    background:var(--glass);
+    background:var(--card);
+
     backdrop-filter:blur(25px);
 
     border:1px solid var(--border);
 
-    animation:popup .3s ease;
+    animation:popup .25s ease;
 }
 
 @keyframes popup{
     from{
         opacity:0;
-        transform:translateY(20px) scale(.95);
+        transform:translateY(20px);
     }
     to{
         opacity:1;
-        transform:translateY(0) scale(1);
+        transform:translateY(0);
     }
 }
 
@@ -310,46 +398,112 @@ header{
 }
 
 .popup-box p{
-    margin-bottom:20px;
-    opacity:.8;
+    margin-bottom:18px;
 }
 
 .popup-box a{
     display:inline-block;
     text-decoration:none;
-    padding:12px 18px;
-    border-radius:10px;
-    background:#2563eb;
+
+    background:var(--primary);
+
     color:white;
-    margin-right:10px;
+
+    padding:10px 16px;
+
+    border-radius:10px;
 }
 
 .close-btn{
     border:none;
     cursor:pointer;
-    padding:12px 18px;
+
+    margin-left:8px;
+
+    padding:10px 16px;
+
     border-radius:10px;
 }
 
-/* FOOTER */
+/* ==========================
+   FLOAT BUTTON
+   ========================== */
+
+.fab{
+    position:fixed;
+    bottom:25px;
+    right:25px;
+
+    width:60px;
+    height:60px;
+
+    border:none;
+    border-radius:50%;
+
+    font-size:28px;
+
+    cursor:pointer;
+
+    background:var(--primary);
+    color:white;
+
+    box-shadow:var(--shadow);
+
+    z-index:999;
+}
+
+/* ==========================
+   TOAST
+   ========================== */
+
+.toast{
+    position:fixed;
+    bottom:100px;
+    right:25px;
+
+    background:#16a34a;
+    color:white;
+
+    padding:12px 18px;
+
+    border-radius:10px;
+
+    opacity:0;
+
+    transform:translateY(20px);
+
+    transition:.3s;
+
+    z-index:5000;
+}
+
+.toast.show{
+    opacity:1;
+    transform:translateY(0);
+}
+
+/* ==========================
+   FOOTER
+   ========================== */
 
 footer{
     text-align:center;
     padding:30px;
-    opacity:.6;
+    opacity:.7;
 }
 
-/* MOBILE */
+/* ==========================
+   MOBILE
+   ========================== */
 
 @media(max-width:768px){
 
     .grid{
-        grid-template-columns:1fr;
+        max-width:340px;
     }
 
     .sidebar{
         width:80%;
-        max-width:300px;
     }
 
     .logo{
@@ -360,9 +514,13 @@ footer{
 </head>
 <body>
 
+<div id="loader">
+    <div class="spinner"></div>
+</div>
+
 <header>
 
-    <div class="menu-toggle" id="menuBtn">
+    <div class="menu-btn" id="menuBtn">
         <span></span>
         <span></span>
         <span></span>
@@ -372,26 +530,32 @@ footer{
         YOUR LOGO
     </div>
 
-    <button class="theme-btn" id="themeBtn">
-        🌙
-    </button>
+    <button class="theme-btn" id="themeBtn">🌙</button>
 
 </header>
 
 <div class="overlay" id="overlay"></div>
 
 <nav class="sidebar" id="sidebar">
+
+    <h3>Menu</h3>
+
+    <div class="search-box">
+        <input type="text" placeholder="Search...">
+    </div>
+
     <a href="#">🏠 Home</a>
     <a href="#">📂 Services</a>
     <a href="#">🖼 Gallery</a>
     <a href="#">📞 Contact</a>
+
 </nav>
 
 <section class="hero">
-    <h1>Premium Modern Interface</h1>
+    <h1>Premium Modern Dashboard</h1>
     <p>
-        Elegant glassmorphism design with responsive layout,
-        dark mode, animations and popup navigation.
+        Responsive, mobile-friendly, glassmorphism interface with
+        compact premium buttons.
     </p>
 </section>
 
@@ -400,23 +564,23 @@ footer{
     <div class="grid">
 
         <div class="card-btn" onclick="openPopup('p1')">
-            <h3>Tools</h3>
-            <p></p>
+            <h3>Button 1</h3>
+            <p>Open</p>
         </div>
 
         <div class="card-btn" onclick="openPopup('p2')">
-            <h3>2nd Button</h3>
-            <p>Open Popup</p>
+            <h3>Button 2</h3>
+            <p>Open</p>
         </div>
 
         <div class="card-btn" onclick="openPopup('p3')">
-            <h3>3rd Button</h3>
-            <p>Open Popup</p>
+            <h3>Button 3</h3>
+            <p>Open</p>
         </div>
 
         <div class="card-btn" onclick="openPopup('p4')">
-            <h3>Mockup</h3>
-            <p></p>
+            <h3>Button 4</h3>
+            <p>Open</p>
         </div>
 
     </div>
@@ -424,25 +588,30 @@ footer{
 </div>
 
 <footer>
-    © 2026 
+    © 2026 Premium Modern Dashboard
 </footer>
+
+<button class="fab" onclick="showToast()">+</button>
+
+<div class="toast" id="toast">
+    ✓ Action Completed
+</div>
 
 <!-- POPUPS -->
 
 <div class="popup" id="p1">
 <div class="popup-box">
-<h2>1st Button</h2>
-<p>Replace with your content.</p>
+<h2>Button 1</h2>
+<p>Your content here.</p>
 <a href="https://example.com" target="_blank">Open Link</a>
-    <a href="https://example.com" target="_blank">Open</a>
 <button class="close-btn" onclick="closePopup('p1')">Close</button>
 </div>
 </div>
 
 <div class="popup" id="p2">
 <div class="popup-box">
-<h2>2nd Button</h2>
-<p>Replace with your content.</p>
+<h2>Button 2</h2>
+<p>Your content here.</p>
 <a href="https://example.com" target="_blank">Open Link</a>
 <button class="close-btn" onclick="closePopup('p2')">Close</button>
 </div>
@@ -450,8 +619,8 @@ footer{
 
 <div class="popup" id="p3">
 <div class="popup-box">
-<h2>3rd Button</h2>
-<p>Replace with your content.</p>
+<h2>Button 3</h2>
+<p>Your content here.</p>
 <a href="https://example.com" target="_blank">Open Link</a>
 <button class="close-btn" onclick="closePopup('p3')">Close</button>
 </div>
@@ -459,51 +628,62 @@ footer{
 
 <div class="popup" id="p4">
 <div class="popup-box">
-<h2>Mockup</h2>
-<p>Generator</p>
+<h2>Button 4</h2>
+<p>Your content here.</p>
 <a href="https://example.com" target="_blank">Open Link</a>
 <button class="close-btn" onclick="closePopup('p4')">Close</button>
 </div>
 </div>
 
 <script>
-const menuBtn = document.getElementById("menuBtn");
-const sidebar = document.getElementById("sidebar");
-const overlay = document.getElementById("overlay");
 
-menuBtn.addEventListener("click", () => {
+/* LOADER */
+
+window.addEventListener("load",()=>{
+    setTimeout(()=>{
+        document.getElementById("loader").style.display="none";
+    },700);
+});
+
+/* MENU */
+
+const menuBtn=document.getElementById("menuBtn");
+const sidebar=document.getElementById("sidebar");
+const overlay=document.getElementById("overlay");
+
+menuBtn.onclick=()=>{
     menuBtn.classList.toggle("active");
     sidebar.classList.toggle("active");
     overlay.classList.toggle("active");
-});
+};
 
-overlay.addEventListener("click", () => {
+overlay.onclick=()=>{
     menuBtn.classList.remove("active");
     sidebar.classList.remove("active");
     overlay.classList.remove("active");
-});
+};
 
 /* THEME */
 
-const themeBtn = document.getElementById("themeBtn");
+const themeBtn=document.getElementById("themeBtn");
 
 if(localStorage.getItem("theme")==="light"){
     document.body.classList.add("light");
-    themeBtn.textContent="☀️";
+    themeBtn.innerHTML="☀️";
 }
 
-themeBtn.addEventListener("click", () => {
+themeBtn.onclick=()=>{
 
     document.body.classList.toggle("light");
 
     if(document.body.classList.contains("light")){
         localStorage.setItem("theme","light");
-        themeBtn.textContent="☀️";
+        themeBtn.innerHTML="☀️";
     }else{
         localStorage.setItem("theme","dark");
-        themeBtn.textContent="🌙";
+        themeBtn.innerHTML="🌙";
     }
-});
+};
 
 /* POPUPS */
 
@@ -515,13 +695,27 @@ function closePopup(id){
     document.getElementById(id).classList.remove("show");
 }
 
-document.querySelectorAll(".popup").forEach(popup=>{
-    popup.addEventListener("click",e=>{
-        if(e.target===popup){
-            popup.classList.remove("show");
+document.querySelectorAll(".popup").forEach(p=>{
+    p.addEventListener("click",(e)=>{
+        if(e.target===p){
+            p.classList.remove("show");
         }
     });
 });
+
+/* TOAST */
+
+function showToast(){
+
+    const toast=document.getElementById("toast");
+
+    toast.classList.add("show");
+
+    setTimeout(()=>{
+        toast.classList.remove("show");
+    },2500);
+}
+
 </script>
 
 </body>
