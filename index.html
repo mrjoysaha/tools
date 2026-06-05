@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Multi Tools Hub</title>
+<style>
+:root{--bg:#f4f4f4;--card:#fff;--text:#111;--accent:#2563eb}
+body.dark{--bg:#121212;--card:#1e1e1e;--text:#eee}
+*{box-sizing:border-box} body{margin:0;font-family:Arial;background:var(--bg);color:var(--text)}
+.sidebar{position:fixed;left:0;top:0;width:260px;height:100%;overflow:auto;background:var(--card);padding:15px}
+.main{margin-left:270px;padding:20px}
+a{display:block;padding:6px 0;color:var(--text);text-decoration:none}
+.card{background:var(--card);padding:15px;border-radius:10px;margin:12px 0}
+input,select,textarea,button{padding:8px;margin:4px;width:100%}
+@media(max-width:768px){.sidebar{position:relative;width:100%;height:auto}.main{margin-left:0}}
+</style>
+</head>
+<body>
+<div class="sidebar">
+<h2>Multi Tools Hub</h2>
+<button onclick="document.body.classList.toggle('dark')">Dark/Light</button>
+<a href="#age">Age Calculator</a>
+<a href="#emi">EMI Calculator</a>
+<a href="#percent">Percentage Tools</a>
+<a href="#word">Word Counter</a>
+<a href="#case">Case Converter</a>
+<a href="#password">Password Generator</a>
+<a href="#qr">QR Generator</a>
+<a href="#date">Date Calculator</a>
+<a href="#color">Color Tools</a>
+<a href="#image">Image Tools</a>
+<a href="#mockup">Mockup Generator</a>
+</div>
+
+<div class="main">
+<h1>Multi Tools Hub</h1>
+
+<div class="card" id="age">
+<h3>Age Calculator</h3>
+<input type="date" id="dob">
+<button onclick="calcAge()">Calculate</button>
+<div id="ageOut"></div>
+</div>
+
+<div class="card" id="emi">
+<h3>EMI Calculator</h3>
+<input id="p" placeholder="Principal">
+<input id="r" placeholder="Rate %">
+<input id="n" placeholder="Months">
+<button onclick="emi()">Calculate</button>
+<div id="emiOut"></div>
+</div>
+
+<div class="card" id="percent">
+<h3>Percentage Calculator</h3>
+<input id="x" placeholder="X">
+<input id="pp" placeholder="P%">
+<button onclick="perc()">What is P% of X?</button>
+<div id="percOut"></div>
+</div>
+
+<div class="card" id="word">
+<h3>Word Counter</h3>
+<textarea id="wc"></textarea>
+<button onclick="wordCount()">Count</button>
+<div id="wcOut"></div>
+</div>
+
+<div class="card" id="case">
+<h3>Case Converter</h3>
+<textarea id="caseText"></textarea>
+<button onclick="upper()">UPPERCASE</button>
+<button onclick="lower()">lowercase</button>
+</div>
+
+<div class="card" id="password">
+<h3>Password Generator</h3>
+<input id="len" value="12">
+<button onclick="genPass()">Generate</button>
+<div id="passOut"></div>
+</div>
+
+<div class="card" id="qr">
+<h3>QR Generator</h3>
+<input id="qrText" placeholder="Text">
+<button onclick="makeQR()">Generate</button>
+<img id="qrImg">
+</div>
+
+<div class="card" id="date">
+<h3>Date Difference</h3>
+<input type="date" id="d1"><input type="date" id="d2">
+<button onclick="dateDiff()">Calculate</button>
+<div id="dateOut"></div>
+</div>
+
+<div class="card" id="color">
+<h3>HEX Color Preview</h3>
+<input id="hex" value="#ff0000" oninput="preview()">
+<div id="box" style="height:60px"></div>
+</div>
+
+<div class="card" id="image">
+<h3>Image Resizer (preview only)</h3>
+<input type="file" id="imgFile" accept="image/*">
+<img id="imgPrev" style="max-width:300px;display:block">
+</div>
+
+<div class="card" id="mockup">
+<h3>Mockup Generator (basic)</h3>
+<p>Upload screenshot and preview inside frame.</p>
+<input type="file" id="mockFile" accept="image/*">
+<canvas id="mockCanvas" width="300" height="600" style="border:10px solid #333;border-radius:30px"></canvas>
+</div>
+</div>
+
+<script>
+function calcAge(){
+let d=new Date(dob.value),t=new Date();
+let a=t.getFullYear()-d.getFullYear();
+ageOut.innerText=a+" years";
+}
+function emi(){
+let P=+p.value,r=(+r.value)/1200,nv=+n.value;
+let e=P*r*Math.pow(1+r,nv)/(Math.pow(1+r,nv)-1);
+emiOut.innerText=isFinite(e)?e.toFixed(2):"Invalid";
+}
+function perc(){percOut.innerText=((+x.value)*(+pp.value)/100).toFixed(2)}
+function wordCount(){wcOut.innerText=wc.value.trim().split(/\s+/).filter(Boolean).length+" words"}
+function upper(){caseText.value=caseText.value.toUpperCase()}
+function lower(){caseText.value=caseText.value.toLowerCase()}
+function genPass(){
+let c='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%';
+let p='',l=+len.value;
+crypto.getRandomValues(new Uint32Array(l)).forEach(v=>p+=c[v%c.length]);
+passOut.innerText=p;
+}
+function makeQR(){
+qrImg.src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data='+encodeURIComponent(qrText.value);
+}
+function dateDiff(){
+let a=new Date(d1.value),b=new Date(d2.value);
+dateOut.innerText=Math.abs((b-a)/86400000)+' days';
+}
+function preview(){box.style.background=hex.value}
+preview();
+
+imgFile.onchange=e=>{
+let f=e.target.files[0];
+if(f) imgPrev.src=URL.createObjectURL(f);
+};
+
+mockFile.onchange=e=>{
+let f=e.target.files[0]; if(!f) return;
+let img=new Image();
+img.onload=()=>{
+let c=mockCanvas.getContext('2d');
+c.clearRect(0,0,300,600);
+c.drawImage(img,20,20,260,560);
+};
+img.src=URL.createObjectURL(f);
+};
+</script>
+</body>
+</html>
