@@ -25,12 +25,14 @@
 </head>
 <body class="bg-slate-50 dark:bg-zinc-950 text-slate-900 dark:text-zinc-100 transition-colors duration-300">
 
-    <!-- MOBILE HEADER -->
+    <!-- MOBILE HEADER (Menu bar explicitly aligned to the far left) -->
     <header class="lg:hidden flex items-center justify-between p-4 bg-white dark:bg-zinc-900 border-b dark:border-zinc-800 sticky top-0 z-50">
-        <h1 class="text-xl font-bold text-indigo-600">ToolHub</h1>
-        <button id="menuToggle" aria-label="Toggle Menu" class="p-2 text-slate-600 dark:text-zinc-300">
-            <i data-lucide="menu"></i>
-        </button>
+        <div class="flex items-center gap-3">
+            <button id="menuToggle" aria-label="Toggle Menu" class="p-2 text-slate-600 dark:text-zinc-300 hover:bg-slate-100 dark:hover:bg-zinc-800 rounded-lg transition-colors">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+            <h1 class="text-xl font-bold text-indigo-600">ToolHub</h1>
+        </div>
     </header>
 
     <div class="flex min-h-screen">
@@ -41,13 +43,13 @@
         <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 w-72 bg-white dark:bg-zinc-900 border-r border-slate-200 dark:border-zinc-800 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out overflow-y-auto no-scrollbar">
             <div class="p-6 flex justify-between items-center">
                 <h1 class="text-2xl font-bold text-indigo-600">ToolHub</h1>
-                <div class="flex items-center gap-2">
+                <div class="flex items-center gap-1">
                     <button onclick="toggleTheme()" aria-label="Toggle Theme" class="p-2 rounded-lg bg-slate-100 dark:bg-zinc-800 hover:ring-2 ring-indigo-500 transition-all">
                         <i data-lucide="sun" class="hidden dark:block w-5 h-5 text-yellow-400"></i>
                         <i data-lucide="moon" class="block dark:hidden w-5 h-5 text-indigo-600"></i>
                     </button>
-                    <!-- Close button for mobile views -->
-                    <button id="sidebarClose" aria-label="Close Menu" class="lg:hidden p-2 text-slate-600 dark:text-zinc-300 rounded-lg hover:bg-slate-100 dark:hover:bg-zinc-800">
+                    <!-- Close icon for clean mobile dismissals -->
+                    <button id="sidebarClose" aria-label="Close Menu" class="lg:hidden p-2 text-slate-600 dark:text-zinc-300 rounded-lg hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors">
                         <i data-lucide="x" class="w-5 h-5"></i>
                     </button>
                 </div>
@@ -355,7 +357,7 @@
                         <div class="flex items-center justify-between">
                             <label class="flex items-center">
                                 <input type="checkbox" id="pw-numbers" checked class="form-checkbox h-4 w-4 text-indigo-600">
-                                * <span class="ml-2">Include Numbers</span>
+                                <span class="ml-2">Include Numbers</span>
                             </label>
                             <label class="flex items-center">
                                 <input type="checkbox" id="pw-symbols" checked class="form-checkbox h-4 w-4 text-indigo-600">
@@ -399,390 +401,347 @@
             applyTheme();
         }
 
-        // Navigation elements
-        const menuToggleBtn = document.getElementById('menuToggle');
+        // Navigation elements[cite: 1]
+        const menuToggleBtn = document.getElementById('menuToggle');[cite: 1]
         const sidebarCloseBtn = document.getElementById('sidebarClose');
         const sidebarBackdrop = document.getElementById('sidebarBackdrop');
-        const sidebar = document.getElementById('sidebar');
+        const sidebar = document.getElementById('sidebar');[cite: 1]
         
-        // Open Mobile Sidebar
-        menuToggleBtn.addEventListener('click', () => {
-            sidebar.classList.remove('-translate-x-full');
+        // Open Mobile Sidebar (slides in from left)[cite: 1]
+        menuToggleBtn.addEventListener('click', () => {[cite: 1]
+            sidebar.classList.remove('-translate-x-full');[cite: 1]
             sidebarBackdrop.classList.remove('hidden');
         });
 
-        // Close Mobile Sidebar
+        // Close Mobile Sidebar[cite: 1]
         function closeSidebar() {
-            sidebar.classList.add('-translate-x-full');
+            sidebar.classList.add('-translate-x-full');[cite: 1]
             sidebarBackdrop.classList.add('hidden');
         }
 
         sidebarCloseBtn.addEventListener('click', closeSidebar);
         sidebarBackdrop.addEventListener('click', closeSidebar);
 
-        function openTool(id) {
-            document.querySelectorAll('.tool-card').forEach(card => {
-                card.classList.remove('active');
+        function openTool(id) {[cite: 1]
+            document.querySelectorAll('.tool-card').forEach(card => {[cite: 1]
+                card.classList.remove('active');[cite: 1]
             });
-            document.getElementById(id).classList.add('active');
-            document.getElementById('welcome-screen').classList.add('hidden');
+            document.getElementById(id).classList.add('active');[cite: 1]
+            document.getElementById('welcome-screen').classList.add('hidden');[cite: 1]
             
-            // Close mobile menu completely upon picking a tool
-            if (window.innerWidth < 1024) {
+            // Close mobile layout when clicking a link option[cite: 1]
+            if (window.innerWidth < 1024) {[cite: 1]
                 closeSidebar();
             }
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            window.scrollTo({ top: 0, behavior: 'smooth' });[cite: 1]
         }
 
-        // --- TOOL LOGIC: CALCULATORS ---
-        function calculateAge() {
-            const dobValue = document.getElementById('dob').value;
-            if (!dobValue) return alert("Please select a date of birth.");
-            const dob = new Date(dobValue);
-            const today = new Date();
+        // --- TOOL LOGIC: CALCULATORS ---[cite: 1]
+        function calculateAge() {[cite: 1]
+            const dobValue = document.getElementById('dob').value;[cite: 1]
+            if (!dobValue) return alert("Please select a date of birth.");[cite: 1]
+            const dob = new Date(dobValue);[cite: 1]
+            const today = new Date();[cite: 1]
             
-            let age = today.getFullYear() - dob.getFullYear();
-            const monthDiff = today.getMonth() - dob.getMonth();
+            let age = today.getFullYear() - dob.getFullYear();[cite: 1]
+            const monthDiff = today.getMonth() - dob.getMonth();[cite: 1]
             
-            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
-                age--;
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {[cite: 1]
+                age--;[cite: 1]
             }
 
-            const months = (today.getMonth() - dob.getMonth() + 12) % 12;
-            const days = today.getDate() - dob.getDate();
-            // Adjust days if it's negative
-            let finalDays = days < 0 ? (new Date(today.getFullYear(), today.getMonth(), 0).getDate() + days) : days;
+            const months = (today.getMonth() - dob.getMonth() + 12) % 12;[cite: 1]
+            const days = today.getDate() - dob.getDate();[cite: 1]
+            let finalDays = days < 0 ? (new Date(today.getFullYear(), today.getMonth(), 0).getDate() + days) : days;[cite: 1]
 
-            document.getElementById('age-result').innerHTML = `${age} <span class="text-sm uppercase text-slate-400">Years</span> ${months} <span class="text-sm uppercase text-slate-400">Months</span>`;
+            document.getElementById('age-result').innerHTML = `${age} <span class="text-sm uppercase text-slate-400">Years</span> ${months} <span class="text-sm uppercase text-slate-400">Months</span>`;[cite: 1]
         }
 
-        function calculateEMI() {
-            const p = parseFloat(document.getElementById('emi-p').value);
-            const r_annual = parseFloat(document.getElementById('emi-r').value);
-            const n = parseFloat(document.getElementById('emi-n').value);
+        function calculateEMI() {[cite: 1]
+            const p = parseFloat(document.getElementById('emi-p').value);[cite: 1]
+            const r_annual = parseFloat(document.getElementById('emi-r').value);[cite: 1]
+            const n = parseFloat(document.getElementById('emi-n').value);[cite: 1]
 
-            if (isNaN(p) || isNaN(r_annual) || isNaN(n) || p <= 0 || r_annual < 0 || n <= 0) {
-                return document.getElementById('emi-result').innerText = "Invalid input";
+            if (isNaN(p) || isNaN(r_annual) || isNaN(n) || p <= 0 || r_annual < 0 || n <= 0) {[cite: 1]
+                return document.getElementById('emi-result').innerText = "Invalid input";[cite: 1]
             }
 
-            const r = r_annual / 12 / 100; // Monthly interest rate
-            const emi = (p * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
-            document.getElementById('emi-result').innerText = `Monthly EMI: $${emi.toFixed(2)}`;
+            const r = r_annual / 12 / 100;[cite: 1]
+            const emi = (p * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);[cite: 1]
+            document.getElementById('emi-result').innerText = `Monthly EMI: $${emi.toFixed(2)}`;[cite: 1]
         }
 
-        function percDiff() {
-            const a = parseFloat(document.getElementById('diff-a').value);
-            const b = parseFloat(document.getElementById('diff-b').value);
-            if (isNaN(a) || isNaN(b) || (a === 0 && b === 0)) return document.getElementById('res-diff').innerText = "Invalid input";
-            
-            const avg = (a + b) / 2;
-            if (avg === 0) { 
-                document.getElementById('res-diff').innerText = `Difference: 0.00%`;
-            } else {
-                const res = (Math.abs(a - b) / avg) * 100;
-                document.getElementById('res-diff').innerText = `Difference: ${res.toFixed(2)}%`;
+        // --- Rest of your standard mathematical/processing definitions from original file ---[cite: 1]
+        function percDiff() {[cite: 1]
+            const a = parseFloat(document.getElementById('diff-a').value);[cite: 1]
+            const b = parseFloat(document.getElementById('diff-b').value);[cite: 1]
+            if (isNaN(a) || isNaN(b) || (a === 0 && b === 0)) return document.getElementById('res-diff').innerText = "Invalid input";[cite: 1]
+            const avg = (a + b) / 2;[cite: 1]
+            if (avg === 0) {[cite: 1]
+                document.getElementById('res-diff').innerText = `Difference: 0.00%`;[cite: 1]
+            } else {[cite: 1]
+                const res = (Math.abs(a - b) / avg) * 100;[cite: 1]
+                document.getElementById('res-diff').innerText = `Difference: ${res.toFixed(2)}%`;[cite: 1]
             }
         }
 
-        function percChange() {
-            const a = parseFloat(document.getElementById('chg-a').value);
-            const b = parseFloat(document.getElementById('chg-b').value);
-            if (isNaN(a) || isNaN(b)) return document.getElementById('res-chg').innerText = "Invalid input";
-            if (a === 0) return document.getElementById('res-chg').innerText = "Cannot change from zero";
-            
-            const res = ((b - a) / a) * 100;
-            document.getElementById('res-chg').innerText = `Change: ${res.toFixed(2)}%`;
+        function percChange() {[cite: 1]
+            const a = parseFloat(document.getElementById('chg-a').value);[cite: 1]
+            const b = parseFloat(document.getElementById('chg-b').value);[cite: 1]
+            if (isNaN(a) || isNaN(b)) return document.getElementById('res-chg').innerText = "Invalid input";[cite: 1]
+            if (a === 0) return document.getElementById('res-chg').innerText = "Cannot change from zero";[cite: 1]
+            const res = ((b - a) / a) * 100;[cite: 1]
+            document.getElementById('res-chg').innerText = `Change: ${res.toFixed(2)}%`;[cite: 1]
         }
         
-        // Percentage Master Tools
-        function calculatePercOfY() {
-            const x = parseFloat(document.getElementById('perc-of-y-x').value);
-            const y = parseFloat(document.getElementById('perc-of-y-y').value);
-            if (isNaN(x) || isNaN(y)) return document.getElementById('res-perc-of-y').innerText = "Invalid input";
-            const result = (x / 100) * y;
-            document.getElementById('res-perc-of-y').innerText = result.toFixed(2);
+        function calculatePercOfY() {[cite: 1]
+            const x = parseFloat(document.getElementById('perc-of-y-x').value);[cite: 1]
+            const y = parseFloat(document.getElementById('perc-of-y-y').value);[cite: 1]
+            if (isNaN(x) || isNaN(y)) return document.getElementById('res-perc-of-y').innerText = "Invalid input";[cite: 1]
+            const result = (x / 100) * y;[cite: 1]
+            document.getElementById('res-perc-of-y').innerText = result.toFixed(2);[cite: 1]
         }
-        function calculatePercOfXY() {
-            const x = parseFloat(document.getElementById('perc-of-xy-x').value);
-            const y = parseFloat(document.getElementById('perc-of-xy-y').value);
-            if (isNaN(x) || isNaN(y) || y === 0) return document.getElementById('res-perc-of-xy').innerText = "Invalid input";
-            const result = (x / y) * 100;
-            document.getElementById('res-perc-of-xy').innerText = result.toFixed(2) + "%";
+        function calculatePercOfXY() {[cite: 1]
+            const x = parseFloat(document.getElementById('perc-of-xy-x').value);[cite: 1]
+            const y = parseFloat(document.getElementById('perc-of-xy-y').value);[cite: 1]
+            if (isNaN(x) || isNaN(y) || y === 0) return document.getElementById('res-perc-of-xy').innerText = "Invalid input";[cite: 1]
+            const result = (x / y) * 100;[cite: 1]
+            document.getElementById('res-perc-of-xy').innerText = result.toFixed(2) + "%";[cite: 1]
         }
-        function calculatePercOfP() {
-            const x = parseFloat(document.getElementById('perc-of-p-x').value);
-            const p = parseFloat(document.getElementById('perc-of-p-p').value);
-            if (isNaN(x) || isNaN(p) || p === 0) return document.getElementById('res-perc-of-p').innerText = "Invalid input";
-            const result = x / (p / 100);
-            document.getElementById('res-perc-of-p').innerText = result.toFixed(2);
+        function calculatePercOfP() {[cite: 1]
+            const x = parseFloat(document.getElementById('perc-of-p-x').value);[cite: 1]
+            const p = parseFloat(document.getElementById('perc-of-p-p').value);[cite: 1]
+            if (isNaN(x) || isNaN(p) || p === 0) return document.getElementById('res-perc-of-p').innerText = "Invalid input";[cite: 1]
+            const result = x / (p / 100);[cite: 1]
+            document.getElementById('res-perc-of-p').innerText = result.toFixed(2);[cite: 1]
         }
-        function calculatePercIncDec() {
-            const x = parseFloat(document.getElementById('perc-inc-dec-x').value);
-            const p = parseFloat(document.getElementById('perc-inc-dec-p').value);
-            if (isNaN(x) || isNaN(p)) return document.getElementById('res-perc-inc-dec').innerText = "Invalid input";
-            const increase = x * (1 + p / 100);
-            const decrease = x * (1 - p / 100);
-            document.getElementById('res-perc-inc-dec').innerText = `Inc: ${increase.toFixed(2)}, Dec: ${decrease.toFixed(2)}`;
-        }
-
-        // --- TOOL LOGIC: TEXT ---
-        function runWordCounter() {
-            const text = document.getElementById('word-input').value;
-            const words = text.trim() ? text.trim().split(/\s+/).filter(word => word.length > 0) : [];
-            const chars = text.length;
-            const lines = text.split('\n').filter(line => line.length > 0).length;
-            const readingTime = Math.ceil(words.length / 200); 
-
-            document.getElementById('c-words').innerText = words.length;
-            document.getElementById('c-chars').innerText = chars;
-            document.getElementById('c-lines').innerText = lines;
-            document.getElementById('c-reading').innerText = `${readingTime}m`;
+        function calculatePercIncDec() {[cite: 1]
+            const x = parseFloat(document.getElementById('perc-inc-dec-x').value);[cite: 1]
+            const p = parseFloat(document.getElementById('perc-inc-dec-p').value);[cite: 1]
+            if (isNaN(x) || isNaN(p)) return document.getElementById('res-perc-inc-dec').innerText = "Invalid input";[cite: 1]
+            const increase = x * (1 + p / 100);[cite: 1]
+            const decrease = x * (1 - p / 100);[cite: 1]
+            document.getElementById('res-perc-inc-dec').innerText = `Inc: ${increase.toFixed(2)}, Dec: ${decrease.toFixed(2)}`;[cite: 1]
         }
 
-        // --- TOOL LOGIC: IMAGE PROCESSOR ---
-        const imgQInput = document.getElementById('img-q');
-        const imgQValSpan = document.getElementById('img-q-val');
-        imgQInput.oninput = () => imgQValSpan.innerText = imgQInput.value;
+        function runWordCounter() {[cite: 1]
+            const text = document.getElementById('word-input').value;[cite: 1]
+            const words = text.trim() ? text.trim().split(/\s+/).filter(word => word.length > 0) : [];[cite: 1]
+            const chars = text.length;[cite: 1]
+            const lines = text.split('\n').filter(line => line.length > 0).length;[cite: 1]
+            const readingTime = Math.ceil(words.length / 200);[cite: 1]
 
-        function processImage() {
-            const file = document.getElementById('img-input').files[0];
-            const quality = document.getElementById('img-q').value / 100;
-            const width = document.getElementById('img-w').value;
-            
-            if (!file) return alert("Select an image first!");
+            document.getElementById('c-words').innerText = words.length;[cite: 1]
+            document.getElementById('c-chars').innerText = chars;[cite: 1]
+            document.getElementById('c-lines').innerText = lines;[cite: 1]
+            document.getElementById('c-reading').innerText = `${readingTime}m`;[cite: 1]
+        }
 
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = (e) => {
-                const img = new Image();
-                img.src = e.target.result;
-                img.onload = () => {
-                    const canvas = document.getElementById('img-canvas');
-                    const ctx = canvas.getContext('2d');
-                    
-                    let newWidth = img.width;
-                    let newHeight = img.height;
-                    
-                    if (width && parseInt(width) > 0) {
-                        newWidth = parseInt(width);
-                        newHeight = img.height * (newWidth / img.width);
+        const imgQInput = document.getElementById('img-q');[cite: 1]
+        const imgQValSpan = document.getElementById('img-q-val');[cite: 1]
+        imgQInput.oninput = () => imgQValSpan.innerText = imgQInput.value;[cite: 1]
+
+        function processImage() {[cite: 1]
+            const file = document.getElementById('img-input').files[0];[cite: 1]
+            const quality = document.getElementById('img-q').value / 100;[cite: 1]
+            const width = document.getElementById('img-w').value;[cite: 1]
+            if (!file) return alert("Select an image first!");[cite: 1]
+            const reader = new FileReader();[cite: 1]
+            reader.readAsDataURL(file);[cite: 1]
+            reader.onload = (e) => {[cite: 1]
+                const img = new Image();[cite: 1]
+                img.src = e.target.result;[cite: 1]
+                img.onload = () => {[cite: 1]
+                    const canvas = document.getElementById('img-canvas');[cite: 1]
+                    const ctx = canvas.getContext('2d');[cite: 1]
+                    let newWidth = img.width;[cite: 1]
+                    let newHeight = img.height;[cite: 1]
+                    if (width && parseInt(width) > 0) {[cite: 1]
+                        newWidth = parseInt(width);[cite: 1]
+                        newHeight = img.height * (newWidth / img.width);[cite: 1]
                     }
-                    
-                    canvas.width = newWidth;
-                    canvas.height = newHeight;
-                    
-                    ctx.drawImage(img, 0, 0, newWidth, newHeight);
-                    
-                    const link = document.createElement('a');
-                    link.download = 'toolhub-processed-image.jpg'; 
-                    link.href = canvas.toDataURL('image/jpeg', quality);
-                    link.click();
+                    canvas.width = newWidth;[cite: 1]
+                    canvas.height = newHeight;[cite: 1]
+                    ctx.drawImage(img, 0, 0, newWidth, newHeight);[cite: 1]
+                    const link = document.createElement('a');[cite: 1]
+                    link.download = 'toolhub-processed-image.jpg';[cite: 1]
+                    link.href = canvas.toDataURL('image/jpeg', quality);[cite: 1]
+                    link.click();[cite: 1]
                 };
             };
         }
 
-        // --- TOOL LOGIC: QR CODE ---
-        const qrContainer = document.getElementById("qr-output");
-        const qrcode = new QRCode(qrContainer, { width: 200, height: 200 });
-        function generateQR() {
-            const data = document.getElementById('qr-data').value;
-            if (data) {
-                qrcode.makeCode(data);
-            } else {
-                qrContainer.innerHTML = ''; 
+        const qrContainer = document.getElementById("qr-output");[cite: 1]
+        const qrcode = new QRCode(qrContainer, { width: 200, height: 200 });[cite: 1]
+        function generateQR() {[cite: 1]
+            const data = document.getElementById('qr-data').value;[cite: 1]
+            if (data) {[cite: 1]
+                qrcode.makeCode(data);[cite: 1]
+            } else {[cite: 1]
+                qrContainer.innerHTML = '';[cite: 1]
             }
         }
 
-        // --- TOOL LOGIC: MOCKUP GENERATOR ---
-        function renderMockup() {
-            const canvas = document.getElementById('mock-canvas');
-            const ctx = canvas.getContext('2d');
-            const fileInput = document.getElementById('mock-up');
-            const file = fileInput.files[0];
-
-            if (!file) return alert("Please upload a screenshot first!");
-
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const userImg = new Image();
-                userImg.src = e.target.result;
-                userImg.onload = () => {
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    canvas.width = 600;
-                    canvas.height = 800;
-
-                    const grad = ctx.createLinearGradient(0,0,0,800);
-                    grad.addColorStop(0, '#4f46e5'); 
-                    grad.addColorStop(1, '#0ea5e9'); 
-                    ctx.fillStyle = grad;
-                    ctx.fillRect(0,0,canvas.width,canvas.height);
-
-                    const framePadding = 30; 
-                    const screenWidth = canvas.width * 0.6;
-                    const screenHeight = canvas.height * 0.7;
-                    const screenX = (canvas.width - screenWidth) / 2;
-                    const screenY = canvas.height * 0.15; 
-
-                    ctx.fillStyle = '#18181b'; 
-                    roundRect(ctx, screenX - framePadding, screenY - framePadding, screenWidth + 2 * framePadding, screenHeight + 2 * framePadding, 40, true); 
-
-                    ctx.drawImage(userImg, screenX, screenY, screenWidth, screenHeight);
-                    
-                    const dlBtn = document.getElementById('mock-dl');
-                    dlBtn.classList.remove('hidden');
-                    dlBtn.onclick = () => {
-                        const link = document.createElement('a');
-                        link.download = 'toolhub-mockup.png';
-                        link.href = canvas.toDataURL();
-                        link.click();
+        function renderMockup() {[cite: 1]
+            const canvas = document.getElementById('mock-canvas');[cite: 1]
+            const ctx = canvas.getContext('2d');[cite: 1]
+            const fileInput = document.getElementById('mock-up');[cite: 1]
+            const file = fileInput.files[0];[cite: 1]
+            if (!file) return alert("Please upload a screenshot first!");[cite: 1]
+            const reader = new FileReader();[cite: 1]
+            reader.onload = (e) => {[cite: 1]
+                const userImg = new Image();[cite: 1]
+                userImg.src = e.target.result;[cite: 1]
+                userImg.onload = () => {[cite: 1]
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);[cite: 1]
+                    canvas.width = 600;[cite: 1]
+                    canvas.height = 800;[cite: 1]
+                    const grad = ctx.createLinearGradient(0,0,0,800);[cite: 1]
+                    grad.addColorStop(0, '#4f46e5');[cite: 1]
+                    grad.addColorStop(1, '#0ea5e9');[cite: 1]
+                    ctx.fillStyle = grad;[cite: 1]
+                    ctx.fillRect(0,0,canvas.width,canvas.height);[cite: 1]
+                    const framePadding = 30;[cite: 1]
+                    const screenWidth = canvas.width * 0.6;[cite: 1]
+                    const screenHeight = canvas.height * 0.7;[cite: 1]
+                    const screenX = (canvas.width - screenWidth) / 2;[cite: 1]
+                    const screenY = canvas.height * 0.15;[cite: 1]
+                    ctx.fillStyle = '#18181b';[cite: 1]
+                    roundRect(ctx, screenX - framePadding, screenY - framePadding, screenWidth + 2 * framePadding, screenHeight + 2 * framePadding, 40, true);[cite: 1]
+                    ctx.drawImage(userImg, screenX, screenY, screenWidth, screenHeight);[cite: 1]
+                    const dlBtn = document.getElementById('mock-dl');[cite: 1]
+                    dlBtn.classList.remove('hidden');[cite: 1]
+                    dlBtn.onclick = () => {[cite: 1]
+                        const link = document.createElement('a');[cite: 1]
+                        link.download = 'toolhub-mockup.png';[cite: 1]
+                        link.href = canvas.toDataURL();[cite: 1]
+                        link.click();[cite: 1]
                     }
                 }
             };
-            reader.readAsDataURL(file);
+            reader.readAsDataURL(file);[cite: 1]
         }
 
-        function roundRect(ctx, x, y, width, height, radius, fill) {
-            ctx.beginPath();
-            ctx.moveTo(x + radius, y);
-            ctx.lineTo(x + width - radius, y);
-            ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
-            ctx.lineTo(x + width, y + height - radius);
-            ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
-            ctx.lineTo(x + radius, y + height);
-            ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
-            ctx.lineTo(x, y + radius);
-            ctx.quadraticCurveTo(x, y, x + radius, y);
-            ctx.closePath();
-            if (fill) ctx.fill();
+        function roundRect(ctx, x, y, width, height, radius, fill) {[cite: 1]
+            ctx.beginPath();[cite: 1]
+            ctx.moveTo(x + radius, y);[cite: 1]
+            ctx.lineTo(x + width - radius, y);[cite: 1]
+            ctx.quadraticCurveTo(x + width, y, x + width, y + radius);[cite: 1]
+            ctx.lineTo(x + width, y + height - radius);[cite: 1]
+            ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);[cite: 1]
+            ctx.lineTo(x + radius, y + height);[cite: 1]
+            ctx.quadraticCurveTo(x, y + height, x, y + height - radius);[cite: 1]
+            ctx.lineTo(x, y + radius);[cite: 1]
+            ctx.quadraticCurveTo(x, y, x + radius, y);[cite: 1]
+            ctx.closePath();[cite: 1]
+            if (fill) ctx.fill();[cite: 1]
         }
 
-        // --- TOOL LOGIC: UNIT CONVERTER ---
-        const unitOptions = {
-            temp: [
-                { name: "Celsius", symbol: "C", factor: { C: 1, F: 9/5, K: 1 }, offset: { C: 0, F: 32, K: 273.15 } },
-                { name: "Fahrenheit", symbol: "F", factor: { C: 5/9, F: 1, K: 5/9 }, offset: { C: -32, F: 0, K: -273.15 + 32 } },
-                { name: "Kelvin", symbol: "K", factor: { C: 1, F: 9/5, K: 1 }, offset: { C: -273.15, F: -32 - 273.15 * 9/5, K: 0 } }
-            ],
-            length: [
-                { name: "Meter", symbol: "m", base: 1 },
-                { name: "Kilometer", symbol: "km", base: 1000 },
-                { name: "Centimeter", symbol: "cm", base: 0.01 },
-                { name: "Millimeter", symbol: "mm", base: 0.001 },
-                { name: "Mile", symbol: "mi", base: 1609.34 },
-                { name: "Yard", symbol: "yd", base: 0.9144 },
-                { name: "Foot", symbol: "ft", base: 0.3048 },
-                { name: "Inch", symbol: "in", base: 0.0254 }
-            ],
-            weight: [
-                { name: "Kilogram", symbol: "kg", base: 1 },
-                { name: "Gram", symbol: "g", base: 0.001 },
-                { name: "Milligram", symbol: "mg", base: 0.000001 },
-                { name: "Pound", symbol: "lb", base: 0.453592 },
-                { name: "Ounce", symbol: "oz", base: 0.0283495 }
-            ]
-        };
+        const unitOptions = {[cite: 1]
+            temp: [[cite: 1]
+                { name: "Celsius", symbol: "C", factor: { C: 1, F: 9/5, K: 1 }, offset: { C: 0, F: 32, K: 273.15 } },[cite: 1]
+                { name: "Fahrenheit", symbol: "F", factor: { C: 5/9, F: 1, K: 5/9 }, offset: { C: -32, F: 0, K: -273.15 + 32 } },[cite: 1]
+                { name: "Kelvin", symbol: "K", factor: { C: 1, F: 9/5, K: 1 }, offset: { C: -273.15, F: -32 - 273.15 * 9/5, K: 0 } }[cite: 1]
+            ],[cite: 1]
+            length: [[cite: 1]
+                { name: "Meter", symbol: "m", base: 1 },[cite: 1]
+                { name: "Kilometer", symbol: "km", base: 1000 },[cite: 1]
+                { name: "Centimeter", symbol: "cm", base: 0.01 },[cite: 1]
+                { name: "Millimeter", symbol: "mm", base: 0.001 },[cite: 1]
+                { name: "Mile", symbol: "mi", base: 1609.34 },[cite: 1]
+                { name: "Yard", symbol: "yd", base: 0.9144 },[cite: 1]
+                { name: "Foot", symbol: "ft", base: 0.3048 },[cite: 1]
+                { name: "Inch", symbol: "in", base: 0.0254 }[cite: 1]
+            ],[cite: 1]
+            weight: [[cite: 1]
+                { name: "Kilogram", symbol: "kg", base: 1 },[cite: 1]
+                { name: "Gram", symbol: "g", base: 0.001 },[cite: 1]
+                { name: "Milligram", symbol: "mg", base: 0.000001 },[cite: 1]
+                { name: "Pound", symbol: "lb", base: 0.453592 },[cite: 1]
+                { name: "Ounce", symbol: "oz", base: 0.0283495 }[cite: 1]
+            ][cite: 1]
+        };[cite: 1]
 
-        const unitFromSelect = document.getElementById('unit-from');
-        const unitToSelect = document.getElementById('unit-to');
-        const unitTypeSelect = document.getElementById('unit-type');
+        const unitFromSelect = document.getElementById('unit-from');[cite: 1]
+        const unitToSelect = document.getElementById('unit-to');[cite: 1]
+        const unitTypeSelect = document.getElementById('unit-type');[cite: 1]
 
-        function updateUnitInputs() {
-            const type = unitTypeSelect.value;
-            const units = unitOptions[type];
-            
-            unitFromSelect.innerHTML = '';
-            unitToSelect.innerHTML = '';
-
-            if (!units) return;
-
-            units.forEach(unit => {
-                unitFromSelect.innerHTML += `<option value="${unit.symbol}">${unit.name} (${unit.symbol})</option>`;
-                unitToSelect.innerHTML += `<option value="${unit.symbol}">${unit.name} (${unit.symbol})</option>`;
-            });
+        function updateUnitInputs() {[cite: 1]
+            const type = unitTypeSelect.value;[cite: 1]
+            const units = unitOptions[type];[cite: 1]
+            unitFromSelect.innerHTML = '';[cite: 1]
+            unitToSelect.innerHTML = '';[cite: 1]
+            if (!units) return;[cite: 1]
+            units.forEach(unit => {[cite: 1]
+                unitFromSelect.innerHTML += `<option value="${unit.symbol}">${unit.name} (${unit.symbol})</option>`;[cite: 1]
+                unitToSelect.innerHTML += `<option value="${unit.symbol}">${unit.name} (${unit.symbol})</option>`;[cite: 1]
+            });[cite: 1]
         }
 
-        function convertUnits() {
-            const type = unitTypeSelect.value;
-            const unitsData = unitOptions[type];
-            const fromSymbol = unitFromSelect.value;
-            const toSymbol = unitToSelect.value;
-            const value = parseFloat(document.getElementById('unit-value').value);
-
-            if (isNaN(value)) return document.getElementById('unit-result').innerText = "Invalid value";
-
-            let result = "";
-
-            if (type === "temp") {
-                const fromUnit = unitsData.find(u => u.symbol === fromSymbol);
-                const toUnit = unitsData.find(u => u.symbol === toSymbol);
-                
-                if (!fromUnit || !toUnit) return document.getElementById('unit-result').innerText = "Error";
-
-                let valueInCelsius = (value + fromUnit.offset.C) * fromUnit.factor.C; 
-                if (fromSymbol === 'F') valueInCelsius = (value - 32) * 5/9;
-                if (fromSymbol === 'K') valueInCelsius = value - 273.15;
-
-                let finalValue;
-                if (toSymbol === 'C') finalValue = valueInCelsius;
-                else if (toSymbol === 'F') finalValue = (valueInCelsius * 9/5) + 32;
-                else if (toSymbol === 'K') finalValue = valueInCelsius + 273.15;
-                else finalValue = "Unknown Target";
-                
-                result = `${finalValue.toFixed(2)} ${toSymbol}`;
-
-            } else { 
-                const fromUnit = unitsData.find(u => u.symbol === fromSymbol);
-                const toUnit = unitsData.find(u => u.symbol === toSymbol);
-                
-                if (!fromUnit || !toUnit) return document.getElementById('unit-result').innerText = "Error";
-
-                const valueInBase = value * fromUnit.base;
-                const finalValue = valueInBase / toUnit.base;
-                result = `${finalValue.toFixed(4)} ${toSymbol}`; 
+        function convertUnits() {[cite: 1]
+            const type = unitTypeSelect.value;[cite: 1]
+            const unitsData = unitOptions[type];[cite: 1]
+            const fromSymbol = unitFromSelect.value;[cite: 1]
+            const toSymbol = unitToSelect.value;[cite: 1]
+            const value = parseFloat(document.getElementById('unit-value').value);[cite: 1]
+            if (isNaN(value)) return document.getElementById('unit-result').innerText = "Invalid value";[cite: 1]
+            let result = "";[cite: 1]
+            if (type === "temp") {[cite: 1]
+                const fromUnit = unitsData.find(u => u.symbol === fromSymbol);[cite: 1]
+                const toUnit = unitsData.find(u => u.symbol === toSymbol);[cite: 1]
+                if (!fromUnit || !toUnit) return document.getElementById('unit-result').innerText = "Error";[cite: 1]
+                let valueInCelsius = (value + fromUnit.offset.C) * fromUnit.factor.C;[cite: 1]
+                if (fromSymbol === 'F') valueInCelsius = (value - 32) * 5/9;[cite: 1]
+                if (fromSymbol === 'K') valueInCelsius = value - 273.15;[cite: 1]
+                let finalValue;[cite: 1]
+                if (toSymbol === 'C') finalValue = valueInCelsius;[cite: 1]
+                else if (toSymbol === 'F') finalValue = (valueInCelsius * 9/5) + 32;[cite: 1]
+                else if (toSymbol === 'K') finalValue = valueInCelsius + 273.15;[cite: 1]
+                else finalValue = "Unknown Target";[cite: 1]
+                result = `${finalValue.toFixed(2)} ${toSymbol}`;[cite: 1]
+            } else {[cite: 1]
+                const fromUnit = unitsData.find(u => u.symbol === fromSymbol);[cite: 1]
+                const toUnit = unitsData.find(u => u.symbol === toSymbol);[cite: 1]
+                if (!fromUnit || !toUnit) return document.getElementById('unit-result').innerText = "Error";[cite: 1]
+                const valueInBase = value * fromUnit.base;[cite: 1]
+                const finalValue = valueInBase / toUnit.base;[cite: 1]
+                result = `${finalValue.toFixed(4)} ${toSymbol}`;[cite: 1]
             }
-
-            document.getElementById('unit-result').innerText = result;
+            document.getElementById('unit-result').innerText = result;[cite: 1]
         }
-        updateUnitInputs(); 
+        updateUnitInputs();[cite: 1]
 
-        // --- TOOL LOGIC: PASSWORD GENERATOR ---
-        function generatePassword() {
-            const length = parseInt(document.getElementById('pw-length').value);
-            const includeUpper = document.getElementById('pw-upper').checked;
-            const includeLower = document.getElementById('pw-lower').checked;
-            const includeNumbers = document.getElementById('pw-numbers').checked;
-            const includeSymbols = document.getElementById('pw-symbols').checked;
-
-            let characters = "";
-            if (includeUpper) characters += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            if (includeLower) characters += "abcdefghijklmnopqrstuvwxyz";
-            if (includeNumbers) characters += "0123456789";
-            if (includeSymbols) characters += "!@#$%^&*()_+~`|}{[]:;?><,./-=";
-
-            if (characters.length === 0) {
-                alert("Please select at least one character type.");
-                return;
+        function generatePassword() {[cite: 1]
+            const length = parseInt(document.getElementById('pw-length').value);[cite: 1]
+            const includeUpper = document.getElementById('pw-upper').checked;[cite: 1]
+            const includeLower = document.getElementById('pw-lower').checked;[cite: 1]
+            const includeNumbers = document.getElementById('pw-numbers').checked;[cite: 1]
+            const includeSymbols = document.getElementById('pw-symbols').checked;[cite: 1]
+            let characters = "";[cite: 1]
+            if (includeUpper) characters += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";[cite: 1]
+            if (includeLower) characters += "abcdefghijklmnopqrstuvwxyz";[cite: 1]
+            if (includeNumbers) characters += "0123456789";[cite: 1]
+            if (includeSymbols) characters += "!@#$%^&*()_+~`|}{[]:;?><,./-=";[cite: 1]
+            if (characters.length === 0) {[cite: 1]
+                alert("Please select at least one character type.");[cite: 1]
+                return;[cite: 1]
             }
-
-            let password = "";
-            for (let i = 0; i < length; i++) {
-                password += characters.charAt(Math.floor(Math.random() * characters.length));
+            let password = "";[cite: 1]
+            for (let i = 0; i < length; i++) {[cite: 1]
+                password += characters.charAt(Math.floor(Math.random() * characters.length));[cite: 1]
             }
-
-            document.getElementById('pw-result').value = password;
+            document.getElementById('pw-result').value = password;[cite: 1]
         }
 
-        function copyPassword() {
-            const passwordField = document.getElementById('pw-result');
-            passwordField.select();
-            document.execCommand('copy');
-            alert("Password copied to clipboard!");
+        function copyPassword() {[cite: 1]
+            const passwordField = document.getElementById('pw-result');[cite: 1]
+            passwordField.select();[cite: 1]
+            document.execCommand('copy');[cite: 1]
+            alert("Password copied to clipboard!");[cite: 1]
         }
-        
-        const pwLengthInput = document.getElementById('pw-length');
-        const pwLengthValSpan = document.getElementById('pw-length-val');
-        pwLengthInput.oninput = () => pwLengthValSpan.innerText = pwLengthInput.value;
-
+        const pwLengthInput = document.getElementById('pw-length');[cite: 1]
+        const pwLengthValSpan = document.getElementById('pw-length-val');[cite: 1]
+        pwLengthInput.oninput = () => pwLengthValSpan.innerText = pwLengthInput.value;[cite: 1]
     </script>
 </body>
 </html>
