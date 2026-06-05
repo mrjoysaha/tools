@@ -101,11 +101,82 @@ input,select,textarea,button{padding:8px;margin:4px;width:100%}
 <div id="box" style="height:60px"></div>
 </div>
 
-<div class="card" id="image">
-<h3>Image Resizer (preview only)</h3>
-<input type="file" id="imgFile" accept="image/*">
-<img id="imgPrev" style="max-width:300px;display:block">
+<div
+<title>Image Tools Hub</title>
+<style>
+body{font-family:Arial;margin:20px}
+.tool{border:1px solid #ccc;padding:15px;margin:10px 0;border-radius:8px}
+canvas{max-width:100%}
+</style>
+</head>
+<body>
+<h1>Image Tools Section</h1>
+
+<div class="tool">
+<h3>Image Compressor / Resizer / Format Converter / EXIF Remover</h3>
+<input type="file" id="imgInput">
+<input type="number" id="width" placeholder="Width" value="500">
+<select id="format">
+<option>image/png</option>
+<option>image/jpeg</option>
+<option>image/webp</option>
+</select>
+<button onclick="processImage()">Process</button>
+<br><canvas id="canvas"></canvas><br>
+<a id="download"></a>
 </div>
+
+<div class="tool">
+<h3>SVG → Data URL Converter</h3>
+<textarea id="svgText" rows="6" cols="60"></textarea><br>
+<button onclick="svgToData()">Convert</button>
+<pre id="svgOut"></pre>
+</div>
+
+<div class="tool">
+<h3>Image Metadata Viewer</h3>
+<p>Basic browser metadata (name,size,type)</p>
+<pre id="meta"></pre>
+</div>
+
+<div class="tool">
+<h3>Image Colour Picker</h3>
+<p>Click image on canvas</p>
+<div id="color"></div>
+</div>
+
+<script>
+let imgObj;
+imgInput.onchange=e=>{
+ const f=e.target.files[0];
+ meta.textContent=`Name: ${f.name}\nSize: ${f.size} bytes\nType: ${f.type}`;
+ let img=new Image();
+ img.onload=()=>{imgObj=img};
+ img.src=URL.createObjectURL(f);
+};
+
+function processImage(){
+ if(!imgObj)return;
+ let c=canvas,ctx=c.getContext('2d');
+ let w=parseInt(width.value)||imgObj.width;
+ let h=imgObj.height*(w/imgObj.width);
+ c.width=w;c.height=h;
+ ctx.drawImage(imgObj,0,0,w,h);
+ download.href=c.toDataURL(format.value,0.7);
+ download.download='output';
+ download.textContent='Download Processed Image';
+}
+
+function svgToData(){
+ svgOut.textContent='data:image/svg+xml,'+encodeURIComponent(svgText.value);
+}
+
+canvas.addEventListener('click',e=>{
+ let r=canvas.getBoundingClientRect();
+ let x=e.clientX-r.left,y=e.clientY-r.top;
+ let d=canvas.getContext('2d').getImageData(x,y,1,1).data;
+ color.textContent=`RGB(${d[0]},${d[1]},${d[2]})`;
+});
 
 <div class="card" id="mockup">
 <h3>Mockup Generator (basic)</h3>
