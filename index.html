@@ -419,6 +419,8 @@ header{
     border-radius:10px;
 }
 
+/* MULTI BUTTON POPUP GRID */
+
 .popup-buttons{
     display:grid;
     grid-template-columns:repeat(2,1fr);
@@ -427,22 +429,36 @@ header{
 }
 
 .popup-buttons a{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    min-height:45px;
+
     text-decoration:none;
     text-align:center;
 
-    padding:12px;
-
-    border-radius:10px;
+    color:white;
 
     background:var(--primary);
 
-    color:white;
+    border-radius:10px;
 
     transition:.3s;
 }
 
 .popup-buttons a:hover{
     transform:translateY(-3px);
+}
+
+/* Mobile */
+
+@media(max-width:480px){
+
+    .popup-buttons{
+        grid-template-columns:1fr;
+    }
+
 }
    
 .close-btn{
