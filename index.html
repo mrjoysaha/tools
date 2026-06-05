@@ -419,6 +419,32 @@ header{
     border-radius:10px;
 }
 
+.popup-buttons{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+    margin:20px 0;
+}
+
+.popup-buttons a{
+    text-decoration:none;
+    text-align:center;
+
+    padding:12px;
+
+    border-radius:10px;
+
+    background:var(--primary);
+
+    color:white;
+
+    transition:.3s;
+}
+
+.popup-buttons a:hover{
+    transform:translateY(-3px);
+}
+   
 .close-btn{
     border:none;
     cursor:pointer;
@@ -650,7 +676,8 @@ footer{
 <p></p>
 <a href="https://example.com" target="_blank">Open Link</a>
    <a href="https://example.com" target="_blank">Open Link</a>
-   <br />
+   <a href="https://example.com" target="_blank">Open Link</a>
+   <a href="https://example.com" target="_blank">Open Link</a>
    <a href="https://example.com" target="_blank">Open Link</a>
 <button class="close-btn" onclick="closePopup('p2')">Close</button>
 </div>
