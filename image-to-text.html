@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Image To Text Converter</title>
+
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+
+<style>
+
+:root{
+    --bg:#0f172a;
+    --card:rgba(255,255,255,.08);
+    --border:rgba(255,255,255,.12);
+    --text:#ffffff;
+    --primary:#3b82f6;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI,Arial,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    padding:20px;
+
+    background:
+    radial-gradient(circle at top left,#2563eb25,transparent 25%),
+    radial-gradient(circle at bottom right,#9333ea25,transparent 25%),
+    var(--bg);
+
+    color:var(--text);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.container{
+    width:100%;
+    max-width:700px;
+
+    padding:30px;
+
+    border-radius:20px;
+
+    background:var(--card);
+    backdrop-filter:blur(20px);
+
+    border:1px solid var(--border);
+}
+
+h1{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.upload-box{
+    border:2px dashed rgba(255,255,255,.3);
+    border-radius:15px;
+    padding:25px;
+    text-align:center;
+}
+
+input[type=file]{
+    width:100%;
+}
+
+.preview{
+    margin-top:20px;
+    text-align:center;
+}
+
+.preview img{
+    max-width:100%;
+    max-height:300px;
+    border-radius:12px;
+}
+
+button{
+    width:100%;
+    margin-top:20px;
+
+    padding:14px;
+
+    border:none;
+    border-radius:12px;
+
+    cursor:pointer;
+
+    font-size:16px;
+    font-weight:bold;
+
+    background:var(--primary);
+    color:white;
+}
+
+.status{
+    margin-top:20px;
+    text-align:center;
+}
+
+textarea{
+    width:100%;
+    height:250px;
+
+    margin-top:20px;
+
+    padding:15px;
+
+    border:none;
+    border-radius:12px;
+
+    resize:vertical;
+
+    font-size:15px;
+}
+
+.copy-btn{
+    margin-top:10px;
+    background:#16a34a;
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <h1>📝 Image To Text Converter</h1>
+
+    <div class="upload-box">
+        <input type="file"
+               id="imageInput"
+               accept="image/*">
+    </div>
+
+    <div class="preview" id="preview"></div>
+
+    <button onclick="extractText()">
+        Extract Text
+    </button>
+
+    <div class="status" id="status"></div>
+
+    <textarea
+        id="result"
+        placeholder="Extracted text will appear here..."
+    ></textarea>
+
+    <button
+        class="copy-btn"
+        onclick="copyText()">
+        Copy Text
+    </button>
+
+</div>
+
+<script>
+
+let selectedImage = null;
+
+document.getElementById("imageInput")
+.addEventListener("change", function(e){
+
+    const file = e.target.files[0];
+
+    if(!file) return;
+
+    selectedImage = file;
+
+    const reader = new FileReader();
+
+    reader.onload = function(event){
+
+        document.getElementById("preview").innerHTML =
+        `<img src="${event.target.result}">`;
+
+    };
+
+    reader.readAsDataURL(file);
+
+});
+
+async function extractText(){
+
+    if(!selectedImage){
+
+        alert("Please select an image.");
+
+        return;
+    }
+
+    const status =
+    document.getElementById("status");
+
+    status.innerHTML =
+    "⏳ Reading image...";
+
+    const result =
+    await Tesseract.recognize(
+        selectedImage,
+        'eng',
+        {
+            logger:m=>{
+
+                if(m.status){
+
+                    status.innerHTML =
+                    `${m.status}
+                    ${Math.floor(
+                        (m.progress||0)*100
+                    )}%`;
+
+                }
+            }
+        }
+    );
+
+    document.getElementById("result")
+    .value = result.data.text;
+
+    status.innerHTML =
+    "✅ Text extraction complete";
+
+}
+
+function copyText(){
+
+    const textArea =
+    document.getElementById("result");
+
+    textArea.select();
+
+    document.execCommand("copy");
+
+    alert("Text copied!");
+}
+
+</script>
+
+</body>
+</html>
