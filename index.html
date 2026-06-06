@@ -521,38 +521,6 @@ header{
     transform:translateY(0);
 }
 
-
-/* PAGE VIEWER */
-
-.page-popup{
-    width:95%;
-    max-width:1200px;
-    height:90vh;
-    padding:15px;
-    display:flex;
-    flex-direction:column;
-   overflow:hidden;
-}
-
-.page-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:10px;
-}
-
-#toolFrame{
-    width:100%;
-    flex:1;
-    border:none;
-   overflow:auto;
-    -webkit-overflow-scrolling:touch;
-    border-radius:21px;
-    background:#000000;
-}
-
-
-   
 /* ==========================
    FOOTER
    ========================== */
@@ -581,6 +549,34 @@ footer{
         font-size:20px;
     }
 }
+
+/* PAGE VIEWER */
+
+.page-popup{
+    width:95%;
+    max-width:1200px;
+    height:90vh;
+    padding:15px;
+    display:flex;
+    flex-direction:column;
+}
+
+.page-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:10px;
+}
+
+#toolFrame{
+    width:100%;
+    flex:1;
+    border:none;
+    border-radius:12px;
+    background:#fff;
+}
+
+   
 </style>
 </head>
 <body>
@@ -683,7 +679,7 @@ footer{
     <h2>Button 1</h2>
     <p>Select an option below.</p>
 
-   <div class="popup-buttons">
+    <div class="popup-buttons">
 
     <a href="#"
        onclick="openPagePopup('Basic Calculator','calculator.html')">
@@ -706,6 +702,7 @@ footer{
     </a>
 
 </div>
+
     <button class="close-btn" onclick="closePopup('p1')">
         Close
     </button>
@@ -858,36 +855,21 @@ themeBtn.onclick=()=>{
 
 /* POPUPS */
 
-let scrollPosition = 0;
-
-function openPagePopup(title,page){
-
-    scrollPosition = window.pageYOffset;
-
-    document.getElementById("pageTitle").innerText = title;
-    document.getElementById("toolFrame").src = page;
-    document.getElementById("pagePopup").classList.add("show");
-
-    document.body.style.position = "fixed";
-    document.body.style.top = `-${scrollPosition}px`;
-    document.body.style.left = "0";
-    document.body.style.right = "0";
-    document.body.style.width = "100%";
+function openPopup(id){
+    document.getElementById(id).classList.add("show");
 }
 
-function closePagePopup(){
-
-    document.getElementById("toolFrame").src = "";
-    document.getElementById("pagePopup").classList.remove("show");
-
-    document.body.style.position = "";
-    document.body.style.top = "";
-    document.body.style.left = "";
-    document.body.style.right = "";
-    document.body.style.width = "";
-
-    window.scrollTo(0, scrollPosition);
+function closePopup(id){
+    document.getElementById(id).classList.remove("show");
 }
+
+document.querySelectorAll(".popup").forEach(p=>{
+    p.addEventListener("click",(e)=>{
+        if(e.target===p){
+            p.classList.remove("show");
+        }
+    });
+});
 
 /* TOAST */
 
@@ -901,7 +883,6 @@ function showToast(){
         toast.classList.remove("show");
     },2500);
 }
-
 
 
 /* PAGE VIEWER */
@@ -927,12 +908,9 @@ function closePagePopup(){
     /* RESTORE MAIN PAGE SCROLL */
     document.body.style.overflow = "auto";
 }
-   });
-});
 
    
 </script>
-
 
 <!-- PAGE VIEWER POPUP -->
 
@@ -951,7 +929,6 @@ function closePagePopup(){
 
     </div>
 </div>
-
    
 </body>
 </html>
