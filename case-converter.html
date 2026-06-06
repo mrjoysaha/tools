@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Word Case Converter</title>
+
+<style>
+
+:root{
+--bg:#0f172a;
+--card:rgba(255,255,255,.08);
+--border:rgba(255,255,255,.12);
+--text:#fff;
+--primary:#3b82f6;
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Segoe UI,sans-serif;
+}
+
+body{
+min-height:100vh;
+padding:20px;
+
+background:
+radial-gradient(circle at top left,#2563eb25,transparent 25%),
+radial-gradient(circle at bottom right,#9333ea25,transparent 25%),
+var(--bg);
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+color:var(--text);
+}
+
+.container{
+width:100%;
+max-width:900px;
+
+background:var(--card);
+backdrop-filter:blur(20px);
+
+border:1px solid var(--border);
+
+border-radius:20px;
+
+padding:25px;
+}
+
+h1{
+text-align:center;
+margin-bottom:20px;
+}
+
+textarea{
+width:100%;
+height:250px;
+
+padding:15px;
+
+border:none;
+outline:none;
+
+border-radius:15px;
+
+resize:vertical;
+
+font-size:16px;
+}
+
+.buttons{
+margin-top:15px;
+
+display:grid;
+grid-template-columns:
+repeat(auto-fit,minmax(140px,1fr));
+
+gap:10px;
+}
+
+button{
+padding:12px;
+
+border:none;
+border-radius:12px;
+
+cursor:pointer;
+
+font-weight:bold;
+
+background:var(--primary);
+color:white;
+}
+
+.stats{
+margin-top:20px;
+
+display:flex;
+justify-content:space-between;
+flex-wrap:wrap;
+
+gap:10px;
+}
+
+.stat{
+background:rgba(255,255,255,.05);
+
+padding:12px 18px;
+
+border-radius:10px;
+}
+
+.action-buttons{
+margin-top:15px;
+
+display:grid;
+grid-template-columns:1fr 1fr;
+
+gap:10px;
+}
+
+.copy-btn{
+background:#16a34a;
+}
+
+.clear-btn{
+background:#ef4444;
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<h1>🔤 Word Case Converter</h1>
+
+<textarea
+id="text"
+placeholder="Type or paste your text here..."
+oninput="updateStats()">
+</textarea>
+
+<div class="buttons">
+
+<button onclick="toUpperCaseText()">
+UPPERCASE
+</button>
+
+<button onclick="toLowerCaseText()">
+lowercase
+</button>
+
+<button onclick="toTitleCase()">
+Title Case
+</button>
+
+<button onclick="toSentenceCase()">
+Sentence Case
+</button>
+
+<button onclick="capitalizeWords()">
+Capitalize Words
+</button>
+
+<button onclick="invertCase()">
+Invert Case
+</button>
+
+</div>
+
+<div class="action-buttons">
+
+<button
+class="copy-btn"
+onclick="copyText()">
+Copy Text
+</button>
+
+<button
+class="clear-btn"
+onclick="clearText()">
+Clear Text
+</button>
+
+</div>
+
+<div class="stats">
+
+<div class="stat">
+Words:
+<span id="words">0</span>
+</div>
+
+<div class="stat">
+Characters:
+<span id="characters">0</span>
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+function getText(){
+return document.getElementById("text");
+}
+
+function updateStats(){
+
+const text =
+getText().value;
+
+const words =
+text.trim()===""
+? 0
+: text.trim().split(/\s+/).length;
+
+document.getElementById("words")
+.innerText = words;
+
+document.getElementById("characters")
+.innerText = text.length;
+
+}
+
+function toUpperCaseText(){
+
+getText().value =
+getText().value.toUpperCase();
+
+updateStats();
+
+}
+
+function toLowerCaseText(){
+
+getText().value =
+getText().value.toLowerCase();
+
+updateStats();
+
+}
+
+function toTitleCase(){
+
+getText().value =
+getText().value
+.toLowerCase()
+.replace(/\b\w/g,
+c=>c.toUpperCase());
+
+updateStats();
+
+}
+
+function capitalizeWords(){
+
+getText().value =
+getText().value
+.split(" ")
+.map(word=>
+word.charAt(0).toUpperCase()
++
+word.slice(1)
+)
+.join(" ");
+
+updateStats();
+
+}
+
+function toSentenceCase(){
+
+let text =
+getText().value
+.toLowerCase();
+
+text =
+text.replace(
+/(^\s*\w|[.!?]\s*\w)/g,
+c=>c.toUpperCase()
+);
+
+getText().value =
+text;
+
+updateStats();
+
+}
+
+function invertCase(){
+
+let text =
+getText().value;
+
+let result="";
+
+for(let char of text){
+
+if(char===char.toUpperCase()){
+
+result +=
+char.toLowerCase();
+
+}else{
+
+result +=
+char.toUpperCase();
+
+}
+
+}
+
+getText().value =
+result;
+
+updateStats();
+
+}
+
+function copyText(){
+
+navigator.clipboard.writeText(
+getText().value
+);
+
+alert("Text copied!");
+
+}
+
+function clearText(){
+
+getText().value="";
+
+updateStats();
+
+}
+
+updateStats();
+
+</script>
+
+</body>
+</html>
