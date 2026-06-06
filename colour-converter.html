@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Color Converter</title>
+
+<style>
+
+:root{
+--bg:#0f172a;
+--card:rgba(255,255,255,.08);
+--border:rgba(255,255,255,.12);
+--text:#fff;
+--primary:#3b82f6;
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Segoe UI,sans-serif;
+}
+
+body{
+min-height:100vh;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+padding:20px;
+
+background:
+radial-gradient(circle at top left,#2563eb25,transparent 25%),
+radial-gradient(circle at bottom right,#9333ea25,transparent 25%),
+var(--bg);
+
+color:var(--text);
+}
+
+.container{
+width:100%;
+max-width:650px;
+
+background:var(--card);
+backdrop-filter:blur(20px);
+
+border:1px solid var(--border);
+
+border-radius:20px;
+
+padding:30px;
+}
+
+h1{
+text-align:center;
+margin-bottom:20px;
+}
+
+.preview{
+width:100%;
+height:180px;
+
+border-radius:15px;
+
+margin-bottom:20px;
+
+border:1px solid var(--border);
+}
+
+input[type=color]{
+width:100%;
+height:70px;
+
+border:none;
+cursor:pointer;
+
+background:none;
+}
+
+.code-box{
+margin-top:15px;
+}
+
+.code-box label{
+display:block;
+margin-bottom:5px;
+}
+
+.code-row{
+display:flex;
+gap:10px;
+}
+
+.code-row input{
+flex:1;
+
+padding:12px;
+
+border:none;
+outline:none;
+
+border-radius:12px;
+}
+
+.code-row button{
+padding:12px 16px;
+
+border:none;
+cursor:pointer;
+
+border-radius:12px;
+
+background:var(--primary);
+color:white;
+}
+
+.random-btn{
+width:100%;
+
+margin-top:20px;
+
+padding:14px;
+
+border:none;
+cursor:pointer;
+
+border-radius:12px;
+
+background:#16a34a;
+color:white;
+
+font-weight:bold;
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<h1>🎨 Color Converter</h1>
+
+<div
+class="preview"
+id="preview">
+</div>
+
+<input
+type="color"
+id="colorPicker"
+value="#3b82f6">
+
+<div class="code-box">
+
+<label>HEX</label>
+
+<div class="code-row">
+
+<input
+id="hexCode"
+readonly>
+
+<button
+onclick="copyValue('hexCode')">
+Copy
+</button>
+
+</div>
+
+</div>
+
+<div class="code-box">
+
+<label>RGB</label>
+
+<div class="code-row">
+
+<input
+id="rgbCode"
+readonly>
+
+<button
+onclick="copyValue('rgbCode')">
+Copy
+</button>
+
+</div>
+
+</div>
+
+<div class="code-box">
+
+<label>HSL</label>
+
+<div class="code-row">
+
+<input
+id="hslCode"
+readonly>
+
+<button
+onclick="copyValue('hslCode')">
+Copy
+</button>
+
+</div>
+
+</div>
+
+<button
+class="random-btn"
+onclick="randomColor()">
+🎲 Random Color
+</button>
+
+</div>
+
+<script>
+
+const picker =
+document.getElementById(
+"colorPicker"
+);
+
+picker.addEventListener(
+"input",
+updateColor
+);
+
+function updateColor(){
+
+const hex =
+picker.value;
+
+document
+.getElementById("preview")
+.style.background = hex;
+
+document
+.getElementById("hexCode")
+.value = hex.toUpperCase();
+
+const rgb =
+hexToRgb(hex);
+
+document
+.getElementById("rgbCode")
+.value =
+`rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
+
+const hsl =
+rgbToHsl(
+rgb.r,
+rgb.g,
+rgb.b
+);
+
+document
+.getElementById("hslCode")
+.value =
+`hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
+
+}
+
+function hexToRgb(hex){
+
+let r =
+parseInt(
+hex.substring(1,3),
+16
+);
+
+let g =
+parseInt(
+hex.substring(3,5),
+16
+);
+
+let b =
+parseInt(
+hex.substring(5,7),
+16
+);
+
+return {r,g,b};
+
+}
+
+function rgbToHsl(r,g,b){
+
+r/=255;
+g/=255;
+b/=255;
+
+let max =
+Math.max(r,g,b);
+
+let min =
+Math.min(r,g,b);
+
+let h,s,l;
+
+l=(max+min)/2;
+
+if(max===min){
+
+h=s=0;
+
+}else{
+
+let d=max-min;
+
+s=l>0.5
+? d/(2-max-min)
+: d/(max+min);
+
+switch(max){
+
+case r:
+h=(g-b)/d+(g<b?6:0);
+break;
+
+case g:
+h=(b-r)/d+2;
+break;
+
+case b:
+h=(r-g)/d+4;
+break;
+
+}
+
+h/=6;
+
+}
+
+return{
+h:Math.round(h*360),
+s:Math.round(s*100),
+l:Math.round(l*100)
+};
+
+}
+
+function copyValue(id){
+
+const value =
+document.getElementById(id);
+
+navigator.clipboard.writeText(
+value.value
+);
+
+alert("Copied!");
+}
+
+function randomColor(){
+
+const random =
+"#" +
+Math.floor(
+Math.random()*16777215
+)
+.toString(16)
+.padStart(6,"0");
+
+picker.value = random;
+
+updateColor();
+
+}
+
+updateColor();
+
+</script>
+
+</body>
+</html>
