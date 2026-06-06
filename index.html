@@ -858,21 +858,36 @@ themeBtn.onclick=()=>{
 
 /* POPUPS */
 
-function openPopup(id){
-    document.getElementById(id).classList.add("show");
+let scrollPosition = 0;
+
+function openPagePopup(title,page){
+
+    scrollPosition = window.pageYOffset;
+
+    document.getElementById("pageTitle").innerText = title;
+    document.getElementById("toolFrame").src = page;
+    document.getElementById("pagePopup").classList.add("show");
+
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollPosition}px`;
+    document.body.style.left = "0";
+    document.body.style.right = "0";
+    document.body.style.width = "100%";
 }
 
-function closePopup(id){
-    document.getElementById(id).classList.remove("show");
-}
+function closePagePopup(){
 
-document.querySelectorAll(".popup").forEach(p=>{
-    p.addEventListener("click",(e)=>{
-        if(e.target===p){
-            p.classList.remove("show");
-        }
-    });
-});
+    document.getElementById("toolFrame").src = "";
+    document.getElementById("pagePopup").classList.remove("show");
+
+    document.body.style.position = "";
+    document.body.style.top = "";
+    document.body.style.left = "";
+    document.body.style.right = "";
+    document.body.style.width = "";
+
+    window.scrollTo(0, scrollPosition);
+}
 
 /* TOAST */
 
