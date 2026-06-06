@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Image Compressor</title>
+
+<style>
+
+:root{
+    --bg:#0f172a;
+    --card:rgba(255,255,255,.08);
+    --border:rgba(255,255,255,.12);
+    --text:#fff;
+    --primary:#3b82f6;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI,Arial,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+
+    background:
+    radial-gradient(circle at top left,#2563eb25,transparent 25%),
+    radial-gradient(circle at bottom right,#9333ea25,transparent 25%),
+    var(--bg);
+
+    color:var(--text);
+}
+
+.container{
+    width:100%;
+    max-width:600px;
+
+    padding:30px;
+
+    border-radius:20px;
+
+    background:var(--card);
+    backdrop-filter:blur(20px);
+
+    border:1px solid var(--border);
+}
+
+h1{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.upload-box{
+    border:2px dashed rgba(255,255,255,.3);
+    border-radius:15px;
+    padding:30px;
+    text-align:center;
+    margin-bottom:20px;
+}
+
+input[type=file]{
+    width:100%;
+}
+
+.control{
+    margin-top:20px;
+}
+
+label{
+    display:block;
+    margin-bottom:10px;
+}
+
+input[type=range]{
+    width:100%;
+}
+
+.quality-value{
+    text-align:center;
+    margin-top:10px;
+}
+
+button{
+    width:100%;
+    margin-top:20px;
+    padding:14px;
+
+    border:none;
+    border-radius:12px;
+
+    cursor:pointer;
+
+    font-size:16px;
+    font-weight:bold;
+
+    background:var(--primary);
+    color:white;
+}
+
+.preview{
+    margin-top:25px;
+    text-align:center;
+}
+
+.preview img{
+    max-width:100%;
+    border-radius:15px;
+}
+
+.info{
+    margin-top:15px;
+    text-align:center;
+    line-height:1.8;
+}
+
+.download-btn{
+    display:none;
+    margin-top:20px;
+    text-decoration:none;
+    text-align:center;
+
+    padding:14px;
+
+    background:#16a34a;
+    color:white;
+
+    border-radius:12px;
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <h1>🖼️ Image Compressor</h1>
+
+    <div class="upload-box">
+
+        <input type="file"
+               id="imageInput"
+               accept="image/*">
+
+    </div>
+
+    <div class="control">
+
+        <label>
+            Compression Quality
+        </label>
+
+        <input type="range"
+               id="quality"
+               min="10"
+               max="100"
+               value="70">
+
+        <div class="quality-value">
+            <span id="qualityText">70%</span>
+        </div>
+
+    </div>
+
+    <button onclick="compressImage()">
+        Compress Image
+    </button>
+
+    <div class="preview" id="preview"></div>
+
+    <div class="info" id="info"></div>
+
+    <a id="downloadBtn"
+       class="download-btn"
+       download="compressed-image.jpg">
+       Download Compressed Image
+    </a>
+
+</div>
+
+<script>
+
+const qualitySlider =
+document.getElementById("quality");
+
+qualitySlider.addEventListener("input",()=>{
+
+    document.getElementById("qualityText")
+    .innerText = qualitySlider.value + "%";
+
+});
+
+function formatSize(bytes){
+
+    if(bytes < 1024)
+        return bytes + " Bytes";
+
+    if(bytes < 1048576)
+        return (bytes/1024).toFixed(2) + " KB";
+
+    return (bytes/1048576).toFixed(2) + " MB";
+}
+
+function compressImage(){
+
+    const file =
+    document.getElementById("imageInput").files[0];
+
+    if(!file){
+        alert("Please select an image.");
+        return;
+    }
+
+    const quality =
+    qualitySlider.value / 100;
+
+    const reader = new FileReader();
+
+    reader.onload = function(e){
+
+        const img = new Image();
+
+        img.onload = function(){
+
+            const canvas =
+            document.createElement("canvas");
+
+            canvas.width = img.width;
+            canvas.height = img.height;
+
+            const ctx =
+            canvas.getContext("2d");
+
+            ctx.drawImage(
+                img,
+                0,
+                0
+            );
+
+            canvas.toBlob(
+
+                function(blob){
+
+                    const compressedURL =
+                    URL.createObjectURL(blob);
+
+                    document.getElementById(
+                        "preview"
+                    ).innerHTML =
+                    `<img src="${compressedURL}">`;
+
+                    document.getElementById(
+                        "info"
+                    ).innerHTML = `
+                    Original Size:
+                    <b>${formatSize(file.size)}</b>
+                    <br>
+
+                    Compressed Size:
+                    <b>${formatSize(blob.size)}</b>
+                    <br>
+
+                    Saved:
+                    <b>${(
+                        (1 - blob.size/file.size)
+                        *100
+                    ).toFixed(1)}%</b>
+                    `;
+
+                    const downloadBtn =
+                    document.getElementById(
+                        "downloadBtn"
+                    );
+
+                    downloadBtn.href =
+                    compressedURL;
+
+                    downloadBtn.style.display =
+                    "block";
+
+                },
+
+                "image/jpeg",
+                quality
+
+            );
+
+        };
+
+        img.src = e.target.result;
+    };
+
+    reader.readAsDataURL(file);
+}
+
+</script>
+
+</body>
+</html>
