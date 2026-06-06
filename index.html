@@ -559,6 +559,7 @@ footer{
     padding:15px;
     display:flex;
     flex-direction:column;
+   overflow:hidden;
 }
 
 .page-header{
@@ -572,8 +573,10 @@ footer{
     width:100%;
     flex:1;
     border:none;
-    border-radius:12px;
-    background:#fff;
+   overflow:auto;
+    -webkit-overflow-scrolling:touch;
+    border-radius:30px;
+    background:#000000;
 }
 
    
@@ -887,26 +890,35 @@ function showToast(){
 
 /* PAGE VIEWER */
 
+let scrollPosition = 0;
+
 function openPagePopup(title,page){
 
+    scrollPosition = window.pageYOffset;
+
     document.getElementById("pageTitle").innerText = title;
-
     document.getElementById("toolFrame").src = page;
-
     document.getElementById("pagePopup").classList.add("show");
 
-    /* LOCK MAIN PAGE SCROLL */
-    document.body.style.overflow = "hidden";
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollPosition}px`;
+    document.body.style.left = "0";
+    document.body.style.right = "0";
+    document.body.style.width = "100%";
 }
 
 function closePagePopup(){
 
     document.getElementById("toolFrame").src = "";
-
     document.getElementById("pagePopup").classList.remove("show");
 
-    /* RESTORE MAIN PAGE SCROLL */
-    document.body.style.overflow = "auto";
+    document.body.style.position = "";
+    document.body.style.top = "";
+    document.body.style.left = "";
+    document.body.style.right = "";
+    document.body.style.width = "";
+
+    window.scrollTo(0, scrollPosition);
 }
 
    
