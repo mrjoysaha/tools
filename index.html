@@ -521,6 +521,35 @@ header{
     transform:translateY(0);
 }
 
+
+/* PAGE VIEWER */
+
+.page-popup{
+    width:95%;
+    max-width:1200px;
+    height:90vh;
+    padding:15px;
+    display:flex;
+    flex-direction:column;
+}
+
+.page-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:10px;
+}
+
+#toolFrame{
+    width:100%;
+    flex:1;
+    border:none;
+    border-radius:12px;
+    background:#fff;
+}
+
+
+   
 /* ==========================
    FOOTER
    ========================== */
@@ -651,26 +680,29 @@ footer{
     <h2>Button 1</h2>
     <p>Select an option below.</p>
 
-    <div class="popup-buttons">
+   <div class="popup-buttons">
 
-        <a href="https://google.com" target="_blank">
-            Google
-        </a>
+    <a href="#"
+       onclick="openPagePopup('Basic Calculator','calculator.html')">
+       Basic Calculator
+    </a>
 
-        <a href="https://youtube.com" target="_blank">
-            YouTube
-        </a>
+    <a href="#"
+       onclick="openPagePopup('Scientific Calculator','scientific.html')">
+       Scientific
+    </a>
 
-        <a href="https://facebook.com" target="_blank">
-            Facebook
-        </a>
+    <a href="#"
+       onclick="openPagePopup('BMI Calculator','bmi.html')">
+       BMI
+    </a>
 
-        <a href="https://instagram.com" target="_blank">
-            Instagram
-        </a>
+    <a href="#"
+       onclick="openPagePopup('Age Calculator','age.html')">
+       Age
+    </a>
 
-    </div>
-
+</div>
     <button class="close-btn" onclick="closePopup('p1')">
         Close
     </button>
@@ -683,12 +715,28 @@ footer{
 <h2>Image Tolls</h2>
 <p></p>
      <div class="popup-buttons">
-<a href="https://example.com" target="_blank">Open Link</a>
-   <a href="https://example.com" target="_blank">Open Link</a>
-   <a href="https://example.com" target="_blank">Open Link</a>
-   <a href="https://example.com" target="_blank">Open Link</a>
-   <a href="https://example.com" target="_blank">Open Link</a>
-     </div>
+
+    <a href="#"
+       onclick="openPagePopup('Background Remover','bgremove.html')">
+       BG Remove
+    </a>
+
+    <a href="#"
+       onclick="openPagePopup('Image Compressor','compress.html')">
+       Compress
+    </a>
+
+    <a href="#"
+       onclick="openPagePopup('Resize Image','resize.html')">
+       Resize
+    </a>
+
+    <a href="#"
+       onclick="openPagePopup('Crop Image','crop.html')">
+       Crop
+    </a>
+
+</div>
 <button class="close-btn" onclick="closePopup('p2')">Close</button>
 </div>
 </div>
@@ -698,9 +746,28 @@ footer{
 <h2>Text & Productivity</h2>
 <p></p>
      <div class="popup-buttons">
-<a href="https://example.com" target="_blank">Text</a>
-   <a href="https://example.com" target="_blank">Productivity</a>
-     </div>
+
+    <a href="#"
+       onclick="openPagePopup('Word Counter','wordcounter.html')">
+       Word Counter
+    </a>
+
+    <a href="#"
+       onclick="openPagePopup('Notes','notes.html')">
+       Notes
+    </a>
+
+    <a href="#"
+       onclick="openPagePopup('Text Case Converter','case.html')">
+       Case Converter
+    </a>
+
+    <a href="#"
+       onclick="openPagePopup('Todo List','todo.html')">
+       Todo
+    </a>
+
+</div>
 <button class="close-btn" onclick="closePopup('p3')">Close</button>
 </div>
 </div>
@@ -710,9 +777,18 @@ footer{
 <h2>Mockup</h2>
 <p></p>
      <div class="popup-buttons">
-<a href="https://example.com" target="_blank">Ios Mockup</a>
-   <a href="https://example.com" target="_blank">Andriod Mockup</a>
-     </div>
+
+    <a href="#"
+       onclick="openPagePopup('iOS Mockup','ios-mockup.html')">
+       iOS Mockup
+    </a>
+
+    <a href="#"
+       onclick="openPagePopup('Android Mockup','android-mockup.html')">
+       Android Mockup
+    </a>
+
+</div>
 <button class="close-btn" onclick="closePopup('p4')">Close</button>
 </div>
 </div>
@@ -808,7 +884,51 @@ function showToast(){
     },2500);
 }
 
+
+
+/* PAGE VIEWER */
+
+function openPagePopup(title,page){
+
+    document.getElementById("pageTitle").innerText=title;
+
+    document.getElementById("toolFrame").src=page;
+
+    document.getElementById("pagePopup")
+    .classList.add("show");
+}
+
+function closePagePopup(){
+
+    document.getElementById("toolFrame").src="";
+
+    document.getElementById("pagePopup")
+    .classList.remove("show");
+}
+
+
+   
 </script>
 
+
+<!-- PAGE VIEWER POPUP -->
+
+<div class="popup" id="pagePopup">
+    <div class="popup-box page-popup">
+
+        <div class="page-header">
+            <h2 id="pageTitle">Tool</h2>
+
+            <button class="close-btn" onclick="closePagePopup()">
+                ✕ Close
+            </button>
+        </div>
+
+        <iframe id="toolFrame"></iframe>
+
+    </div>
+</div>
+
+   
 </body>
 </html>
