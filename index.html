@@ -531,6 +531,7 @@ header{
     padding:15px;
     display:flex;
     flex-direction:column;
+   overflow:hidden;
 }
 
 .page-header{
@@ -544,8 +545,10 @@ header{
     width:100%;
     flex:1;
     border:none;
-    border-radius:12px;
-    background:#fff;
+   overflow:auto;
+    -webkit-overflow-scrolling:touch;
+    border-radius:21px;
+    background:#000000;
 }
 
 
@@ -890,20 +893,24 @@ function showToast(){
 
 function openPagePopup(title,page){
 
-    document.getElementById("pageTitle").innerText=title;
+    document.getElementById("pageTitle").innerText = title;
 
-    document.getElementById("toolFrame").src=page;
+    document.getElementById("toolFrame").src = page;
 
-    document.getElementById("pagePopup")
-    .classList.add("show");
+    document.getElementById("pagePopup").classList.add("show");
+
+    /* LOCK MAIN PAGE SCROLL */
+    document.body.style.overflow = "hidden";
 }
 
 function closePagePopup(){
 
-    document.getElementById("toolFrame").src="";
+    document.getElementById("toolFrame").src = "";
 
-    document.getElementById("pagePopup")
-    .classList.remove("show");
+    document.getElementById("pagePopup").classList.remove("show");
+
+    /* RESTORE MAIN PAGE SCROLL */
+    document.body.style.overflow = "auto";
 }
 
 
