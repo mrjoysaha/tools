@@ -586,7 +586,7 @@ footer{
 
     <a href="#">🏠 Home</a>
     <a href="#">📂 Services</a>
-    <a href="#">🖼 Gallery</a>
+    <a href="#gallery">🖼 Gallery</a>
     <a href="#">📞 Contact</a>
 
 </nav>
@@ -625,6 +625,83 @@ footer{
     </div>
 
 </div>
+   
+   /* ==========================
+   GALLERY
+   ========================== */
+
+.gallery-section{
+    max-width:1200px;
+    margin:40px auto;
+    padding:20px;
+}
+
+.gallery-title{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.gallery-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+    gap:15px;
+}
+
+.gallery-item{
+    overflow:hidden;
+    border-radius:20px;
+    background:var(--card);
+    border:1px solid var(--border);
+    box-shadow:var(--shadow);
+}
+
+.gallery-item img{
+    width:100%;
+    height:auto;
+    display:block;
+    border-radius:20px;
+    transition:.3s;
+}
+
+.gallery-item img:hover{
+    transform:scale(1.03);
+}
+
+   <section id="gallery" class="gallery-section">
+
+    <h2 class="gallery-title">
+        🖼 Wallpapers & Images Gallery
+    </h2>
+
+    <div class="gallery-grid">
+
+        <div class="gallery-item">
+            <img src="wallpapers/wallpaper1.jpg" alt="Wallpaper 1">
+        </div>
+
+        <div class="gallery-item">
+            <img src="wallpapers/wallpaper2.jpg" alt="Wallpaper 2">
+        </div>
+
+        <div class="gallery-item">
+            <img src="wallpapers/wallpaper3.jpg" alt="Wallpaper 3">
+        </div>
+
+        <div class="gallery-item">
+            <img src="wallpapers/wallpaper4.jpg" alt="Wallpaper 4">
+        </div>
+
+        <div class="gallery-item">
+            <img src="wallpapers/wallpaper5.jpg" alt="Wallpaper 5">
+        </div>
+
+        <div class="gallery-item">
+            <img src="wallpapers/wallpaper6.jpg" alt="Wallpaper 6">
+        </div>
+
+    </div>
+
+</section>
 <br />
    <br />
    <br />
