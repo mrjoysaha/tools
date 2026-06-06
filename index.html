@@ -889,35 +889,26 @@ function showToast(){
 
 /* PAGE VIEWER */
 
-let scrollPosition = 0;
-
 function openPagePopup(title,page){
 
-    scrollPosition = window.pageYOffset;
-
     document.getElementById("pageTitle").innerText = title;
+
     document.getElementById("toolFrame").src = page;
+
     document.getElementById("pagePopup").classList.add("show");
 
-    document.body.style.position = "fixed";
-    document.body.style.top = `-${scrollPosition}px`;
-    document.body.style.left = "0";
-    document.body.style.right = "0";
-    document.body.style.width = "100%";
+    /* LOCK MAIN PAGE SCROLL */
+    document.body.style.overflow = "hidden";
 }
 
 function closePagePopup(){
 
     document.getElementById("toolFrame").src = "";
+
     document.getElementById("pagePopup").classList.remove("show");
 
-    document.body.style.position = "";
-    document.body.style.top = "";
-    document.body.style.left = "";
-    document.body.style.right = "";
-    document.body.style.width = "";
-
-    window.scrollTo(0, scrollPosition);
+    /* RESTORE MAIN PAGE SCROLL */
+    document.body.style.overflow = "auto";
 }
 
    
