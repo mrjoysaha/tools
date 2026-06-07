@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Ludo Mini Game</title>
+
+<style>
+
+body{
+font-family:Arial,sans-serif;
+background:#0f172a;
+color:white;
+text-align:center;
+padding:20px;
+}
+
+.container{
+max-width:700px;
+margin:auto;
+}
+
+.board{
+display:grid;
+grid-template-columns:repeat(10,1fr);
+gap:4px;
+margin:20px auto;
+max-width:500px;
+}
+
+.cell{
+aspect-ratio:1;
+background:#1e293b;
+border-radius:6px;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+font-size:18px;
+font-weight:bold;
+}
+
+.player1{
+background:#ef4444;
+}
+
+.player2{
+background:#3b82f6;
+}
+
+button{
+padding:12px 20px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+font-size:16px;
+margin-top:10px;
+}
+
+#dice{
+font-size:40px;
+margin:15px;
+}
+
+.info{
+margin-top:10px;
+font-size:18px;
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<h1>🎲 Mini Ludo</h1>
+
+<div id="dice">🎲</div>
+
+<button onclick="rollDice()">
+Roll Dice
+</button>
+
+<div class="info" id="turnInfo">
+Player 1 Turn
+</div>
+
+<div class="board" id="board"></div>
+
+</div>
+
+<script>
+
+const board =
+document.getElementById("board");
+
+const totalCells = 100;
+
+let currentPlayer = 1;
+
+let positions = {
+1:0,
+2:0
+};
+
+for(let i=0;i<totalCells;i++){
+
+const cell =
+document.createElement("div");
+
+cell.className="cell";
+
+cell.id="cell-"+i;
+
+board.appendChild(cell);
+
+}
+
+function renderBoard(){
+
+document
+.querySelectorAll(".cell")
+.forEach(cell=>{
+
+cell.className="cell";
+cell.innerHTML="";
+
+});
+
+const p1 =
+document.getElementById(
+"cell-"+positions[1]
+);
+
+p1.classList.add("player1");
+p1.innerHTML="🔴";
+
+const p2 =
+document.getElementById(
+"cell-"+positions[2]
+);
+
+p2.classList.add("player2");
+p2.innerHTML="🔵";
+
+}
+
+renderBoard();
+
+function rollDice(){
+
+const dice =
+Math.floor(Math.random()*6)+1;
+
+document.getElementById(
+"dice"
+).innerHTML =
+"🎲 "+dice;
+
+positions[currentPlayer] += dice;
+
+if(
+positions[currentPlayer]
+>= totalCells-1
+){
+
+positions[currentPlayer] =
+totalCells-1;
+
+renderBoard();
+
+alert(
+"🎉 Player "
++
+currentPlayer
++
+" Wins!"
+);
+
+positions[1]=0;
+positions[2]=0;
+
+currentPlayer=1;
+
+renderBoard();
+
+return;
+}
+
+renderBoard();
+
+currentPlayer =
+currentPlayer===1
+?2
+:1;
+
+document.getElementById(
+"turnInfo"
+).innerHTML =
+"Player "
++
+currentPlayer
++
+" Turn";
+
+}
+
+</script>
+
+</body>
+</html>
