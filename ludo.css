@@ -1,0 +1,504 @@
+/* ==========================
+   GLOBAL
+========================== */
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+min-height:100vh;
+padding:20px;
+
+background:
+radial-gradient(circle at top left,#2563eb30,transparent 30%),
+radial-gradient(circle at bottom right,#9333ea30,transparent 30%),
+#0f172a;
+
+color:white;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+/* ==========================
+   CONTAINER
+========================== */
+
+.game-container{
+width:100%;
+max-width:1000px;
+
+background:rgba(255,255,255,.06);
+backdrop-filter:blur(20px);
+
+border:1px solid rgba(255,255,255,.1);
+
+border-radius:25px;
+
+padding:20px;
+}
+
+/* ==========================
+   TOP PANEL
+========================== */
+
+.top-panel{
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+flex-wrap:wrap;
+
+gap:15px;
+
+margin-bottom:20px;
+}
+
+.top-panel h1{
+font-size:32px;
+}
+
+.controls{
+display:flex;
+align-items:center;
+gap:15px;
+flex-wrap:wrap;
+}
+
+.turn-box{
+padding:10px 15px;
+
+background:rgba(255,255,255,.08);
+
+border-radius:12px;
+
+font-weight:bold;
+}
+
+#diceBtn{
+padding:12px 20px;
+
+border:none;
+cursor:pointer;
+
+border-radius:12px;
+
+background:#3b82f6;
+color:white;
+
+font-weight:bold;
+
+transition:.3s;
+}
+
+#diceBtn:hover{
+transform:translateY(-2px);
+}
+
+#diceValue{
+font-size:32px;
+font-weight:bold;
+
+min-width:60px;
+text-align:center;
+}
+
+/* ==========================
+   BOARD
+========================== */
+
+#board{
+
+width:100%;
+
+max-width:650px;
+
+margin:auto;
+
+display:grid;
+
+grid-template-columns:
+2fr 1fr 1fr 1fr 2fr;
+
+grid-template-rows:
+2fr 1fr 1fr 2fr;
+
+gap:4px;
+}
+
+/* ==========================
+   HOME AREAS
+========================== */
+
+.home{
+
+height:220px;
+
+border-radius:18px;
+
+display:grid;
+
+grid-template-columns:1fr 1fr;
+grid-template-rows:1fr 1fr;
+
+gap:15px;
+
+padding:20px;
+}
+
+.red-home{
+background:#ef4444;
+}
+
+.green-home{
+background:#22c55e;
+}
+
+.yellow-home{
+background:#facc15;
+}
+
+.blue-home{
+background:#3b82f6;
+}
+
+/* ==========================
+   TOKENS
+========================== */
+
+.token{
+
+width:50px;
+height:50px;
+
+margin:auto;
+
+border-radius:50%;
+
+border:3px solid white;
+
+cursor:pointer;
+
+transition:.3s;
+
+box-shadow:
+0 0 10px rgba(0,0,0,.3);
+}
+
+.token:hover{
+transform:scale(1.1);
+}
+
+.red{
+background:#dc2626;
+}
+
+.green{
+background:#16a34a;
+}
+
+.yellow{
+background:#eab308;
+}
+
+.blue{
+background:#2563eb;
+}
+
+/* Active token highlight */
+
+.token.active{
+
+box-shadow:
+0 0 15px #fff,
+0 0 30px #fff;
+
+animation:pulse 1s infinite;
+}
+
+@keyframes pulse{
+
+0%{
+transform:scale(1);
+}
+
+50%{
+transform:scale(1.12);
+}
+
+100%{
+transform:scale(1);
+}
+
+}
+
+/* ==========================
+   PATH CELLS
+========================== */
+
+.path{
+
+background:#f8fafc;
+
+border-radius:10px;
+
+min-height:70px;
+
+position:relative;
+
+transition:.2s;
+}
+
+.path:hover{
+background:#e2e8f0;
+}
+
+/* Safe Zone */
+
+.safe{
+background:#86efac;
+}
+
+/* ==========================
+   CENTER
+========================== */
+
+.center{
+
+background:
+linear-gradient(
+135deg,
+#ef4444,
+#facc15,
+#22c55e,
+#3b82f6
+);
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+font-size:24px;
+font-weight:bold;
+
+border-radius:15px;
+
+color:white;
+
+text-shadow:
+0 2px 4px rgba(0,0,0,.4);
+}
+
+/* ==========================
+   SCOREBOARD
+========================== */
+
+.scoreboard{
+
+margin-top:25px;
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(180px,1fr));
+
+gap:10px;
+}
+
+.player-card{
+
+padding:15px;
+
+border-radius:15px;
+
+font-weight:bold;
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.red-card{
+background:#7f1d1d;
+}
+
+.green-card{
+background:#14532d;
+}
+
+.yellow-card{
+background:#854d0e;
+}
+
+.blue-card{
+background:#1e3a8a;
+}
+
+/* ==========================
+   GAME LOG
+========================== */
+
+#gameLog{
+
+margin-top:20px;
+
+padding:15px;
+
+height:120px;
+
+overflow-y:auto;
+
+border-radius:15px;
+
+background:rgba(255,255,255,.05);
+
+line-height:1.8;
+}
+
+/* ==========================
+   TOKEN ON PATH
+========================== */
+
+.path .token{
+
+position:absolute;
+
+top:50%;
+left:50%;
+
+transform:
+translate(-50%,-50%);
+
+width:36px;
+height:36px;
+}
+
+/* ==========================
+   MOBILE
+========================== */
+
+@media(max-width:768px){
+
+.top-panel{
+justify-content:center;
+text-align:center;
+}
+
+#board{
+
+max-width:100%;
+
+grid-template-columns:
+2fr 1fr 1fr 1fr 2fr;
+}
+
+.home{
+height:160px;
+padding:10px;
+}
+
+.token{
+width:35px;
+height:35px;
+}
+
+.center{
+font-size:18px;
+}
+
+.path{
+min-height:55px;
+}
+
+}
+
+
+/* WINNER MODAL */
+
+.winner-modal{
+
+position:fixed;
+
+inset:0;
+
+background:
+rgba(0,0,0,.8);
+
+display:none;
+
+justify-content:center;
+align-items:center;
+
+z-index:9999;
+}
+
+.winner-box{
+
+background:white;
+
+padding:40px;
+
+border-radius:20px;
+
+text-align:center;
+
+color:black;
+
+min-width:300px;
+}
+
+.winner-box h2{
+
+margin-bottom:20px;
+
+font-size:30px;
+}
+
+.winner-box button{
+
+padding:14px 25px;
+
+border:none;
+
+border-radius:12px;
+
+background:#3b82f6;
+
+color:white;
+
+cursor:pointer;
+}
+
+/* TOKEN MOVE ANIMATION */
+
+.token{
+
+transition:
+all .35s ease;
+}
+
+/* SAFE STAR CELLS */
+
+.safe{
+
+background:#86efac;
+
+position:relative;
+}
+
+.safe::after{
+
+content:"⭐";
+
+position:absolute;
+
+top:50%;
+left:50%;
+
+transform:
+translate(-50%,-50%);
+}

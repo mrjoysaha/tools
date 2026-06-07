@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Advanced Ludo Game</title>
+
+<link rel="stylesheet" href="ludo.css">
+
+</head>
+<body>
+
+<div class="game-container">
+
+    <div class="top-panel">
+
+        <h1>🎲 Advanced Ludo</h1>
+
+        <div class="controls">
+
+            <div class="turn-box">
+                Turn:
+                <span id="currentPlayer">
+                    RED
+                </span>
+            </div>
+
+            <button id="diceBtn">
+                Roll Dice
+            </button>
+
+            <div id="diceValue">
+                🎲
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- LUDO BOARD -->
+
+    <div id="board">
+
+        <!-- ROW 1 -->
+
+        <div class="red-home home">
+
+            <div class="token red"
+                 id="r1"></div>
+
+            <div class="token red"
+                 id="r2"></div>
+
+            <div class="token red"
+                 id="r3"></div>
+
+            <div class="token red"
+                 id="r4"></div>
+
+        </div>
+
+        <div class="path"
+             data-cell="0"></div>
+
+        <div class="path"
+             data-cell="1"></div>
+
+        <div class="path"
+             data-cell="2"></div>
+
+        <div class="green-home home">
+
+            <div class="token green"
+                 id="g1"></div>
+
+            <div class="token green"
+                 id="g2"></div>
+
+            <div class="token green"
+                 id="g3"></div>
+
+            <div class="token green"
+                 id="g4"></div>
+
+        </div>
+
+
+        <!-- ROW 2 -->
+
+        <div class="path"
+             data-cell="3"></div>
+
+        <div class="path"
+             data-cell="4"></div>
+
+        <div class="path safe"
+             data-cell="5"></div>
+
+        <div class="path"
+             data-cell="6"></div>
+
+        <div class="path"
+             data-cell="7"></div>
+
+
+        <!-- ROW 3 -->
+
+        <div class="path"
+             data-cell="8"></div>
+
+        <div class="path"
+             data-cell="9"></div>
+
+        <div class="center">
+            LUDO
+        </div>
+
+        <div class="path"
+             data-cell="10"></div>
+
+        <div class="path"
+             data-cell="11"></div>
+
+
+        <!-- ROW 4 -->
+
+        <div class="yellow-home home">
+
+            <div class="token yellow"
+                 id="y1"></div>
+
+            <div class="token yellow"
+                 id="y2"></div>
+
+            <div class="token yellow"
+                 id="y3"></div>
+
+            <div class="token yellow"
+                 id="y4"></div>
+
+        </div>
+
+        <div class="path"
+             data-cell="12"></div>
+
+        <div class="path safe"
+             data-cell="13"></div>
+
+        <div class="path"
+             data-cell="14"></div>
+
+        <div class="blue-home home">
+
+            <div class="token blue"
+                 id="b1"></div>
+
+            <div class="token blue"
+                 id="b2"></div>
+
+            <div class="token blue"
+                 id="b3"></div>
+
+            <div class="token blue"
+                 id="b4"></div>
+
+        </div>
+
+    </div>
+
+    <!-- SCOREBOARD -->
+
+    <div class="scoreboard">
+
+        <div class="player-card red-card">
+            🔴 Red
+            <span id="redScore">0</span>
+        </div>
+
+        <div class="player-card green-card">
+            🟢 Green
+            <span id="greenScore">0</span>
+        </div>
+
+        <div class="player-card yellow-card">
+            🟡 Yellow
+            <span id="yellowScore">0</span>
+        </div>
+
+        <div class="player-card blue-card">
+            🔵 Blue
+            <span id="blueScore">0</span>
+        </div>
+
+    </div>
+
+    <!-- GAME LOG -->
+
+    <div id="gameLog">
+
+        Welcome to Advanced Ludo!
+
+    </div>
+
+</div>
+
+<script src="ludo.js"></script>
+
+<div id="winnerModal" class="winner-modal">
+
+    <div class="winner-box">
+
+        <h2 id="winnerText">
+            WINNER
+        </h2>
+
+        <button onclick="restartGame()">
+            Play Again
+        </button>
+
+    </div>
+
+</div>
+
+<audio
+id="diceSound"
+src="https://assets.mixkit.co/active_storage/sfx/2003/2003-preview.mp3">
+</audio>
+
+<audio
+id="moveSound"
+src="https://assets.mixkit.co/active_storage/sfx/1435/1435-preview.mp3">
+</audio>
+
+<audio
+id="winSound"
+src="https://assets.mixkit.co/active_storage/sfx/2018/2018-preview.mp3">
+</audio>
+    
+    
+</body>
+</html>
