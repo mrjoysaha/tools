@@ -25,12 +25,13 @@
             margin-bottom: 10px;
             color: #00adb5;
         }
-        /* Grid layout for wallpapers */
+        
+        /* Responsive Grid Masonry Style */
         .gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-            max-width: 1200px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            max-width: 1400px;
             margin: 0 auto;
         }
         .wallpaper-card {
@@ -38,39 +39,46 @@
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            transition: transform 0.3s ease;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
         }
         .wallpaper-card:hover {
-            transform: translateY(-5px);
+            transform: scale(1.03);
+        }
+        .img-container {
+            width: 100%;
+            height: 380px; /* Taller viewport container for phone/desktop wallpapers */
+            overflow: hidden;
+            background-color: #252530;
         }
         .wallpaper-card img {
             width: 100%;
-            height: 200px;
-            object-fit: cover;
+            height: 100%;
+            object-fit: cover; /* Keeps thumbnail grids uniform */
             display: block;
-            background-color: #252530; /* Loading placeholder color */
         }
         .wallpaper-info {
             padding: 15px;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: column;
+            gap: 12px;
         }
         .wallpaper-title {
-            font-size: 0.9rem;
+            font-size: 0.95rem;
+            font-weight: 500;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            max-width: 180px;
         }
         .download-btn {
             background-color: #00adb5;
             color: #fff;
             text-decoration: none;
-            padding: 8px 15px;
+            padding: 10px;
             border-radius: 6px;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             font-weight: bold;
+            text-align: center;
             transition: background 0.2s;
         }
         .download-btn:hover {
@@ -81,22 +89,63 @@
             grid-column: 1 / -1;
             font-size: 1.2rem;
             color: #888;
+            padding: 50px 0;
+        }
+
+        /* --- Full Screen Lightbox Modal --- */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(5, 5, 8, 0.95);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .lightbox.active {
+            display: flex;
+        }
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 85vh;
+            border-radius: 8px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.7);
+            object-fit: contain; /* Assures actual aspect ratio displays perfectly full-size */
+        }
+        .close-lightbox {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 2.5rem;
+            color: #fff;
+            cursor: pointer;
+            user-select: none;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>Cloud Wallpapers</h1>
-        <p>Automatically synced from my Google Drive</p>
+        <h1>Wallpapers</h1>
+        <p>Click download to save original.</p>
     </header>
 
     <div class="gallery" id="gallery">
         <div class="loading">Loading wallpapers...</div>
     </div>
 
+    <!-- Lightbox UI element -->
+    <div class="lightbox" id="lightbox" onclick="closeFullView()">
+        <span class="close-lightbox">&times;</span>
+        <img class="lightbox-content" id="lightbox-img" src="" alt="Full size preview">
+    </div>
+
     <script>
-        // 2. REPLACE THIS WITH YOUR GOOGLE APPS SCRIPT WEB APP URL
+        // PASTE YOUR NEWLY GENERATED APPS SCRIPT WEB APP URL HERE
         const API_URL = "https://script.google.com/macros/s/AKfycbzfidiGQFnvABKTQUtZzpKUYCzi0WvFY_tSAiOJ6Uwg-t3OCxz6nmvTsv0ZvaG6PKxi2Q/exec";
 
         async function fetchWallpapers() {
@@ -104,36 +153,48 @@
             try {
                 const response = await fetch(API_URL);
                 const data = await response.json();
-                
-                // Clear the loading message
                 gallery.innerHTML = '';
 
                 if(data.length === 0) {
-                    gallery.innerHTML = '<div class="loading">No images found in the folder.</div>';
+                    gallery.innerHTML = '<div class="loading">No wallpapers found in this folder.</div>';
                     return;
                 }
 
-                // Loop through data and build the HTML cards
                 data.forEach(wallpaper => {
                     const card = document.createElement('div');
                     card.className = 'wallpaper-card';
+                    
+                    // Clicking the card body or image opens the full-screen view
                     card.innerHTML = `
-                        <img src="${wallpaper.url}" alt="${wallpaper.name}" loading="lazy">
+                        <div class="img-container" onclick="openFullView('${wallpaper.viewUrl}')">
+                            <img src="${wallpaper.viewUrl}" alt="${wallpaper.name}" loading="lazy">
+                        </div>
                         <div class="wallpaper-info">
                             <span class="wallpaper-title" title="${wallpaper.name}">${wallpaper.name}</span>
-                            <a href="${wallpaper.url}" target="_blank" download="${wallpaper.name}" class="download-btn">View Full</a>
+                            <a href="${wallpaper.downloadUrl}" class="download-btn" target="_blank">Download High-Res</a>
                         </div>
                     `;
                     gallery.appendChild(card);
                 });
 
             } catch (error) {
-                console.error("Error fetching wallpapers:", error);
-                gallery.innerHTML = '<div class="loading">Failed to load wallpapers. Make sure your script URL is correct and public.</div>';
+                console.error("Error loading gallery data:", error);
+                gallery.innerHTML = '<div class="loading">Failed to load wallpapers. Double-check your web app deployment settings.</div>';
             }
         }
 
-        // Run the function when the page loads
+        // Lightbox controller functions
+        function openFullView(url) {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            lightboxImg.src = url;
+            lightbox.classList.add('active');
+        }
+
+        function closeFullView() {
+            document.getElementById('lightbox').classList.remove('active');
+        }
+
         fetchWallpapers();
     </script>
 </body>
