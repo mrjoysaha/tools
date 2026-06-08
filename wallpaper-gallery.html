@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Wallpaper Gallery</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Segoe UI,sans-serif;
+}
+
+body{
+background:#0f172a;
+color:white;
+padding:20px;
+}
+
+h1{
+text-align:center;
+margin-bottom:20px;
+}
+
+.search-box{
+max-width:500px;
+margin:0 auto 20px;
+}
+
+.search-box input{
+width:100%;
+padding:12px;
+border:none;
+border-radius:12px;
+}
+
+.gallery{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fill,minmax(250px,1fr));
+
+gap:20px;
+}
+
+.wallpaper{
+
+background:#1e293b;
+
+border-radius:20px;
+
+overflow:hidden;
+
+box-shadow:
+0 5px 15px rgba(0,0,0,.3);
+}
+
+.wallpaper img{
+
+width:100%;
+height:320px;
+
+object-fit:cover;
+
+display:block;
+}
+
+.actions{
+
+padding:12px;
+display:flex;
+gap:10px;
+}
+
+button{
+
+flex:1;
+
+padding:12px;
+
+border:none;
+cursor:pointer;
+
+border-radius:10px;
+
+font-weight:bold;
+
+color:white;
+}
+
+.view-btn{
+background:#3b82f6;
+}
+
+.download-btn{
+background:#16a34a;
+}
+
+.loading{
+text-align:center;
+margin-top:50px;
+font-size:20px;
+}
+
+</style>
+</head>
+<body>
+
+<h1>🖼 Wallpaper Gallery</h1>
+
+<div class="search-box">
+
+<input
+type="text"
+id="search"
+placeholder="Search wallpapers..."
+onkeyup="filterWallpapers()">
+
+</div>
+
+<div
+class="loading"
+id="loading">
+
+Loading wallpapers...
+
+</div>
+
+<div
+class="gallery"
+id="gallery">
+</div>
+
+<script>
+
+/* REPLACE WITH YOUR FOLDER ID */
+
+const FOLDER_ID =
+"1uYkoRxUDYfiPl6UDUZmqVsdTaLS9h";
+
+/* ADD FILES MANUALLY */
+
+const wallpapers = [
+
+{
+name:"Nature",
+image:
+"https://drive.google.com/thumbnail?id=FILE_ID_1&sz=w2000"
+},
+
+{
+name:"Mountain",
+image:
+"https://drive.google.com/thumbnail?id=FILE_ID_2&sz=w2000"
+},
+
+{
+name:"Abstract",
+image:
+"https://drive.google.com/thumbnail?id=FILE_ID_3&sz=w2000"
+}
+
+];
+
+function loadGallery(){
+
+const gallery =
+document.getElementById(
+"gallery"
+);
+
+gallery.innerHTML="";
+
+wallpapers.forEach(w=>{
+
+gallery.innerHTML +=
+
+`
+<div class="wallpaper"
+data-name="${w.name.toLowerCase()}">
+
+<img src="${w.image}"
+loading="lazy">
+
+<div class="actions">
+
+<button
+class="view-btn"
+onclick="window.open('${w.image}')">
+
+View
+
+</button>
+
+<a
+href="${w.image}"
+download>
+
+<button
+class="download-btn">
+
+Download
+
+</button>
+
+</a>
+
+</div>
+
+</div>
+`;
+
+});
+
+document.getElementById(
+"loading"
+).style.display =
+"none";
+
+}
+
+function filterWallpapers(){
+
+const search =
+document.getElementById(
+"search"
+).value
+.toLowerCase();
+
+document
+.querySelectorAll(
+".wallpaper"
+)
+.forEach(card=>{
+
+const name =
+card.dataset.name;
+
+card.style.display =
+name.includes(search)
+? "block"
+: "none";
+
+});
+
+}
+
+loadGallery();
+
+</script>
+
+</body>
+</html>
